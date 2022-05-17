@@ -1,4 +1,5 @@
 const mix = require('laravel-mix');
+const webpackConfig = require('./webpack.config');
 
 /*
  |--------------------------------------------------------------------------
@@ -12,6 +13,14 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js')
-    .postCss('resources/css/app.css', 'public/css', [
-        //
-    ]);
+    .copyDirectory('resources/fonts', 'public/fonts')
+    .vue()
+    .postCss('resources/css/app.css', 'public/css', [require('tailwindcss')])
+    .webpackConfig(webpackConfig)
+    .sourceMaps();
+
+mix.disableNotifications();
+
+if (mix.inProduction()) {
+    mix.version();
+}
