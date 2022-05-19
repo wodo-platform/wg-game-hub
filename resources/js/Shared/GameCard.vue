@@ -1,0 +1,85 @@
+<script setup>
+import GameOptionsIcon from '@/Shared/SVG/GameOptionsIcon';
+import GameLiveIcon from '@/Shared/SVG/GameLiveIcon';
+import WGHButton from '@/Shared/WGHButton';
+
+let props = defineProps({
+    game: Object,
+});
+</script>
+
+<template>
+    <div
+        class="mb-5 flex w-full flex-col rounded-2xl border-t-4 border-r-4 border-l-4 border-b-10 border-wgh-gray-1.5 bg-white p-6 md:flex-row"
+    >
+        <div
+            class="flex w-full flex-col space-y-4 md:w-2/3 md:flex-row md:space-y-0 md:space-x-4"
+        >
+            <img
+                :src="game.game_art"
+                :alt="`${game.name} art`"
+                class="aspect-[16/9] md:mb-0 md:max-h-[6.25rem]"
+            />
+            <div class="flex flex-col justify-center">
+                <h3
+                    class="font-grota text-base font-bold uppercase text-wgh-gray-6"
+                >
+                    {{ game.name }}
+                </h3>
+                <p class="mb-4 font-inter text-sm font-normal text-wgh-gray-4">
+                    {{ game.description }}
+                </p>
+                <div
+                    class="flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-10"
+                >
+                    <div
+                        class="flex flex-row items-center space-x-2 md:space-x-4"
+                    >
+                        <GameOptionsIcon class="h-6 w-6" />
+                        <div class="flex flex-col">
+                            <span
+                                class="font-inter text-[10px] font-semibold uppercase text-wgh-gray-2"
+                                >Game Options</span
+                            >
+                            <span
+                                class="font-grota text-sm font-normal uppercase text-wgh-gray-6"
+                                >{{
+                                    game.meta.game_options_count.toLocaleString(
+                                        'en'
+                                    )
+                                }}
+                                Options</span
+                            >
+                        </div>
+                    </div>
+                    <div
+                        class="flex flex-row items-center space-x-2 md:space-x-4"
+                    >
+                        <GameLiveIcon class="h-6 w-6" />
+                        <div class="flex flex-col">
+                            <span
+                                class="font-inter text-[10px] font-semibold uppercase text-wgh-gray-2"
+                                >Online Players</span
+                            >
+                            <span
+                                class="font-grota text-sm font-normal uppercase text-wgh-gray-6"
+                            >
+                                {{
+                                    game.meta.total_online_players.toLocaleString(
+                                        'en'
+                                    )
+                                }}
+                                Players</span
+                            >
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div
+            class="mt-4 flex flex-col items-center justify-end md:mt-0 md:w-1/3 md:flex-row md:items-baseline"
+        >
+            <WGHButton type="red" class="inline-flex">Choose Game</WGHButton>
+        </div>
+    </div>
+</template>

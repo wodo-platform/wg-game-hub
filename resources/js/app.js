@@ -9,7 +9,7 @@ InertiaProgress.init();
 
 createInertiaApp({
     resolve: (name) => {
-        let page = require(`./Pages/${name}.vue`);
+        let page = require(`./Pages/${name}.vue`).default;
         page.layout = page.layout || DefaultLayout;
         return page;
     },
