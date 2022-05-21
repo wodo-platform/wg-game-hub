@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\{Auth\LoginController, DashboardController};
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GameController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +17,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/login', LoginController::class)->name(name: 'login');
 Route::get('/', DashboardController::class)->name(name: 'dashboard');
+Route::get('/game/{game}/show', GameController::class)->name(name: 'show_game');
