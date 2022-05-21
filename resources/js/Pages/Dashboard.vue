@@ -2,16 +2,41 @@
 import GameCard from '@/Shared/GameCard';
 import DashboardBalanceCard from '@/Shared/DashboardBalanceCard/DashboardBalanceCard';
 import DashboardBalanceCardCreateAccount from '@/Shared/DashboardBalanceCard/DashboardBalanceCardCreateAccount';
+import TentModal from '@/Shared/Modals/TentModal';
+import { reactive, ref } from 'vue';
+import WGHButton from '@/Shared/WGHButton';
+import { isEmpty } from 'lodash';
 
 let props = defineProps({
     dashboard_art: String,
     games: Array,
     balance: Array,
 });
+
+let playGameModalIsOpen = ref(false);
+let playGameModalSelectedGame = reactive({});
+
+function playGameModalCancelButtonClicked() {
+    playGameModalIsOpen.value = false;
+    playGameModalSelectedGame = {};
+}
+
+function playGameModalStartButtonClicked() {
+    if (isEmpty(playGameModalSelectedGame)) {
+        return;
+    }
+    console.log('starting..', playGameModalSelectedGame.name);
+    playGameModalIsOpen.value = false;
+}
+
+function gameActionButtonClicked(game) {
+    playGameModalSelectedGame = game;
+    playGameModalIsOpen.value = true;
+}
 </script>
 
 <template>
-    <div class="flex flex-col px-4 lg:flex-row lg:space-x-6 lg:px-0">
+    <div class="flex h-full flex-col px-4 lg:flex-row lg:space-x-6 lg:px-0">
         <div class="w-full lg:w-3/4">
             <div
                 class="border-3 mb-8 flex flex-col space-y-6 rounded-lg border-t-4 border-r-4 border-l-4 border-b-10 border-wgh-red-3 bg-wgh-red-2 p-6 md:flex-row md:space-x-6 md:space-y-0"
@@ -32,15 +57,40 @@ let props = defineProps({
             <h1 class="mb-6 font-grota text-2xl font-extrabold text-wgh-gray-6">
                 Games
             </h1>
+            <TentModal :open="playGameModalIsOpen">
+                <template v-slot:header><p>Hello!</p></template>
+                <template v-slot:title>
+                    <p>A small description about the first section.</p>
+                </template>
+                <template v-slot:subtitle>
+                    <p class="wgh-gray-6 font-inter text-base font-normal">
+                        A small description about the first section explaining
+                        about the platform.
+                    </p>
+                </template>
+                <template v-slot:actions>
+                    <WGHButton
+                        type="gray"
+                        @click.prevent="playGameModalCancelButtonClicked"
+                        >Cancel</WGHButton
+                    >
+                    <WGHButton
+                        type="red"
+                        @click.prevent="playGameModalStartButtonClicked"
+                        >Start</WGHButton
+                    >
+                </template>
+            </TentModal>
             <div>
                 <GameCard
+                    @actionButtonClicked="gameActionButtonClicked(game)"
                     :key="game.id"
                     v-for="game in props.games"
                     :game="game"
                 />
             </div>
         </div>
-        <div class="h-32 w-full space-y-6 lg:w-1/4">
+        <div class="h-full w-full space-y-6 lg:w-1/4">
             <DashboardBalanceCard :balance="balance" />
             <DashboardBalanceCardCreateAccount />
         </div>

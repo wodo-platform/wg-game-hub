@@ -1,4 +1,6 @@
 <script setup>
+import { defineEmits, defineProps } from 'vue';
+
 import GameOptionsIcon from '@/Shared/SVG/GameOptionsIcon';
 import GameLiveIcon from '@/Shared/SVG/GameLiveIcon';
 import WGHButton from '@/Shared/WGHButton';
@@ -6,6 +8,8 @@ import WGHButton from '@/Shared/WGHButton';
 let props = defineProps({
     game: Object,
 });
+
+defineEmits(['actionButtonClicked']);
 </script>
 
 <template>
@@ -79,7 +83,13 @@ let props = defineProps({
         <div
             class="mt-4 flex flex-col items-center justify-end md:mt-0 md:w-1/3 md:flex-row md:items-baseline"
         >
-            <WGHButton type="red" class="inline-flex">Choose Game</WGHButton>
+            <WGHButton
+                as="button"
+                type="red"
+                class="inline-flex"
+                @click.prevent.stop="$emit('actionButtonClicked', props.game)"
+                >Choose Game</WGHButton
+            >
         </div>
     </div>
 </template>

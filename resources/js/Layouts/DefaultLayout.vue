@@ -6,6 +6,7 @@ import SearchIcon from '@/Shared/SVG/SearchIcon';
 import BellIcon from '@/Shared/SVG/BellIcon';
 import AccountIcon from '@/Shared/SVG/AccountIcon';
 import WGHButton from '@/Shared/WGHButton';
+import Footer from '@/Shared/Footer/Footer';
 
 let props = defineProps({
     config: Object,
@@ -14,7 +15,7 @@ let props = defineProps({
 <template>
     <div
         id="wrapper"
-        class="min-h-screen w-full bg-[#F6F6F7]"
+        class="flex min-h-screen w-full flex-col justify-between bg-[#F6F6F7]"
         :style="{
             backgroundImage: `url(${props.config.main_pattern})`,
             backgroundRepeat: `repeat`,
@@ -50,12 +51,11 @@ let props = defineProps({
                 </div>
             </nav>
         </div>
-        <div class="container mx-auto">
-            <transition name="page">
-                <div>
-                    <slot />
-                </div>
-            </transition>
+        <div class="container mx-auto h-full flex-1">
+            <slot />
+        </div>
+        <div class="mx-auto mt-8 w-full bg-white py-2">
+            <Footer />
         </div>
     </div>
 </template>
