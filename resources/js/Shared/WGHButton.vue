@@ -19,7 +19,7 @@ let props = defineProps({
 </script>
 <template>
     <button
-        class="flex flex-row space-x-2.5 rounded-2xl border-t-4 border-r-4 border-l-4 border-b-10 px-4 py-2 text-center font-grota outline-none transition-all duration-100 active:mt-6 active:border-b-4"
+        class="flex flex-row space-x-2.5 rounded-lg border-t-4 border-r-4 border-l-4 border-b-10 px-4 py-2 text-center font-grota outline-none transition-all duration-100 active:mt-1 active:border-b-4"
         :class="classesForType[props.type]"
     >
         <slot />

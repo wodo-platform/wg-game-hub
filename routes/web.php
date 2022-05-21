@@ -1,6 +1,10 @@
 <?php
 
-use App\Http\Controllers\{Auth\LoginController, DashboardController};
+use App\Http\Controllers\{
+    Auth\LoginController,
+    DashboardController,
+    ProfileController,
+};
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +20,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/login', LoginController::class)->name(name: 'login');
 Route::get('/', DashboardController::class)->name(name: 'dashboard');
+Route::get('/profile', ProfileController::class)->name(name: 'profile');

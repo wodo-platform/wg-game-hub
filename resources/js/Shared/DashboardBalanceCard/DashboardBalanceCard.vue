@@ -7,7 +7,7 @@ let props = defineProps({
 </script>
 <template>
     <div
-        class="rounded-2xl border-x-4 border-t-4 border-b-10 border-wgh-gray-1.5 bg-white p-6"
+        class="rounded-lg border-x-4 border-t-4 border-b-10 border-wgh-gray-1.5 bg-white p-6"
     >
         <div class="mb-4 flex flex-col space-y-4">
             <DashboardBalanceCardCoin

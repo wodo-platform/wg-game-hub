@@ -31,8 +31,13 @@ module.exports = {
                 'wgh-gray-4': '#696C73',
                 'wgh-gray-5': '#5D5F65',
                 'wgh-gray-6': '#313336',
+
+                'wgh-pink-1': '#F0E4FD',
+                'wgh-pink-2': '#6100D4',
             },
             borderWidth: {
+                3: '3px',
+                9: '9px',
                 10: '10px',
             },
         },
