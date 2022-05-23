@@ -13,7 +13,7 @@ import { ref } from 'vue';
 let activeTransactionNetwork = ref('banano');
 </script>
 <template>
-    <div class="px-4 lg:p-0">
+    <div>
         <BorderedContainer
             class="mb-9 flex flex-col justify-between border-wgh-gray-1.5 bg-white p-6 md:flex-row"
         >

@@ -39,7 +39,7 @@ function gameActionButtonClicked(game) {
 </script>
 
 <template>
-    <div class="flex h-full flex-col px-4 lg:flex-row lg:space-x-6 lg:px-0">
+    <div class="flex h-full flex-col lg:flex-row lg:space-x-6">
         <div class="w-full lg:w-3/4">
             <BorderedContainer
                 class="mb-8 flex flex-col space-y-6 border-wgh-red-3 bg-wgh-red-2 p-6 md:flex-row md:space-x-6 md:space-y-0"
