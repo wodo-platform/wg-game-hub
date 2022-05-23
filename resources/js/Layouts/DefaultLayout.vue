@@ -49,7 +49,7 @@ let props = defineProps({
     >
         <div class="mb-6 w-full bg-white">
             <nav
-                class="container mx-auto flex hidden flex-row justify-between px-4 lg:flex lg:px-0"
+                class="container mx-auto flex hidden flex-row justify-between px-4 lg:flex"
             >
                 <div class="flex flex-row items-center space-x-14 py-5">
                     <Link href="/dashboard">
@@ -240,7 +240,7 @@ let props = defineProps({
                 </Popover>
             </div>
         </div>
-        <div class="container mx-auto h-full flex-1 lg:mt-0">
+        <div class="container mx-auto h-full flex-1 px-4 lg:mt-0">
             <slot />
         </div>
         <div class="mx-auto mt-8 w-full bg-white py-2">

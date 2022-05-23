@@ -73,7 +73,7 @@ let props = defineProps({
         </BorderedContainer>
 
         <div
-            class="flex grid grid-cols-1 flex-row flex-wrap gap-6 px-4 md:grid-cols-2 lg:grid-cols-3 lg:px-12"
+            class="flex grid grid-cols-1 flex-row flex-wrap gap-6 md:grid-cols-2 lg:grid-cols-3 lg:px-12"
         >
             <borderedContainer
                 v-for="option in game.options"
