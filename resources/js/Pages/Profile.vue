@@ -5,9 +5,12 @@ import SettingsIcon from '@/Shared/SVG/SettingsIcon';
 import MedalIcon from '@/Shared/SVG/MedalIcon';
 import RocketIcon from '@/Shared/SVG/RocketIcon';
 import WatchIcon from '@/Shared/SVG/WatchIcon';
-import Banano from '@/Shared/SVG/Banano';
+import BananoIcon from '@/Shared/SVG/BananoIcon';
 import CopyIcon from '@/Shared/SVG/CopyIcon';
 import ButtonShape from '@/Shared/ButtonShape';
+import { ref } from 'vue';
+
+let activeTransactionNetwork = ref('banano');
 </script>
 <template>
     <div class="px-4 lg:p-0">
@@ -51,7 +54,7 @@ import ButtonShape from '@/Shared/ButtonShape';
                 <div class="flex flex-row lg:space-x-8">
                     <div class="flex flex-row space-x-2">
                         <div class="rounded-full bg-wgh-pink-1 p-3">
-                            <MedalIcon class="h-7 w-7 text-wgh-pink-2" />
+                            <MedalIcon class="h-7 w-7 text-wgh-purple-2" />
                         </div>
                         <div class="flex flex-col justify-center">
                             <span
@@ -66,7 +69,7 @@ import ButtonShape from '@/Shared/ButtonShape';
                     </div>
                     <div class="flex flex-row space-x-2">
                         <div class="rounded-full bg-wgh-pink-1 p-3">
-                            <RocketIcon class="h-7 w-7 text-wgh-pink-2" />
+                            <RocketIcon class="h-7 w-7 text-wgh-purple-2" />
                         </div>
                         <div class="flex flex-col justify-center">
                             <span
@@ -81,7 +84,7 @@ import ButtonShape from '@/Shared/ButtonShape';
                     </div>
                     <div class="flex flex-row space-x-2">
                         <div class="rounded-full bg-wgh-pink-1 p-3">
-                            <WatchIcon class="h-7 w-7 text-wgh-pink-2" />
+                            <WatchIcon class="h-7 w-7 text-wgh-purple-2" />
                         </div>
                         <div class="flex flex-col justify-center">
                             <span
@@ -274,17 +277,22 @@ import ButtonShape from '@/Shared/ButtonShape';
                 </div>
                 <BorderedContainer class="border-wgh-gray-1.5 bg-white p-6">
                     <BorderedContainer
-                        class="relative mx-auto mb-4 flex max-w-2xl flex-row space-x-4 overflow-auto border-wgh-gray-1.5 p-4"
+                        class="relative mx-auto mb-4 flex flex-col justify-around gap-x-4 border-wgh-gray-1.5 p-4 md:flex-row"
                     >
                         <div
-                            class="flex shrink-0 flex-row items-center space-x-4 rounded-lg bg-green-200 p-3"
+                            class="flex basis-1/3 cursor-pointer flex-row items-center space-x-4 rounded-lg p-3 transition-all duration-100"
+                            :class="{
+                                'bg-wgh-pink-1':
+                                    activeTransactionNetwork === 'banano',
+                            }"
+                            @click.prevent="activeTransactionNetwork = 'banano'"
                         >
-                            <Banano />
+                            <BananoIcon class="text-wgh-red-2" />
                             <div class="flex flex-col">
                                 <p
                                     class="font-inter text-xs font-normal uppercase text-wgh-gray-2"
                                 >
-                                    Balance NANO
+                                    Banano Balance
                                 </p>
                                 <p
                                     class="text-sm font-extrabold text-wgh-gray-6"
@@ -294,14 +302,19 @@ import ButtonShape from '@/Shared/ButtonShape';
                             </div>
                         </div>
                         <div
-                            class="flex shrink-0 flex-row items-center space-x-4 rounded-lg bg-green-200 p-3"
+                            class="flex basis-1/3 cursor-pointer flex-row items-center space-x-4 rounded-lg p-3 transition-all duration-100"
+                            :class="{
+                                'bg-wgh-pink-1':
+                                    activeTransactionNetwork === 'nano',
+                            }"
+                            @click.prevent="activeTransactionNetwork = 'nano'"
                         >
-                            <Banano />
+                            <BananoIcon class="text-wgh-turquoise-2" />
                             <div class="flex flex-col">
                                 <p
                                     class="font-inter text-xs font-normal uppercase text-wgh-gray-2"
                                 >
-                                    Balance NANO
+                                    nano Balance
                                 </p>
                                 <p
                                     class="text-sm font-extrabold text-wgh-gray-6"
@@ -311,14 +324,19 @@ import ButtonShape from '@/Shared/ButtonShape';
                             </div>
                         </div>
                         <div
-                            class="flex shrink-0 flex-row items-center space-x-4 rounded-lg bg-green-200 p-3"
+                            class="flex basis-1/3 cursor-pointer flex-row items-center space-x-4 rounded-lg p-3 transition-all duration-100"
+                            :class="{
+                                'bg-wgh-pink-1':
+                                    activeTransactionNetwork === 'bano',
+                            }"
+                            @click.prevent="activeTransactionNetwork = 'bano'"
                         >
-                            <Banano />
+                            <BananoIcon class="text-wgh-yellow-2" />
                             <div class="flex flex-col">
                                 <p
                                     class="font-inter text-xs font-normal uppercase text-wgh-gray-2"
                                 >
-                                    Balance NANO
+                                    bano Balance
                                 </p>
                                 <p
                                     class="text-sm font-extrabold text-wgh-gray-6"
@@ -332,11 +350,12 @@ import ButtonShape from '@/Shared/ButtonShape';
                         class="flex flex-row items-center justify-between space-x-8 overflow-x-scroll rounded-lg bg-wgh-gray-0.5 p-2.5"
                     >
                         <p
+                            ref="walletAddress"
                             class="font-inter text-xs text-base font-normal text-wgh-gray-2"
                         >
-                            1PQi1jwKr4cnfFYKgeHAAAdfQi1jwKr4cnfFYKgeHA
+                            1PQi1jwKr4cnfFYKgeHAAZZZZZZZZZZZZZZZZZZZZZZZ
                         </p>
-                        <button @click.prevent="console.log('address copied')">
+                        <button @click.prevent="">
                             <CopyIcon />
                         </button>
                     </div>

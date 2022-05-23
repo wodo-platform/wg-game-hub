@@ -7,6 +7,7 @@ import { reactive, ref } from 'vue';
 import { isEmpty } from 'lodash';
 import ButtonShape from '@/Shared/ButtonShape';
 import { Inertia } from '@inertiajs/inertia';
+import BorderedContainer from '@/Shared/BorderedContainer';
 
 let props = defineProps({
     dashboard_art: String,
@@ -40,8 +41,8 @@ function gameActionButtonClicked(game) {
 <template>
     <div class="flex h-full flex-col px-4 lg:flex-row lg:space-x-6 lg:px-0">
         <div class="w-full lg:w-3/4">
-            <div
-                class="mb-8 flex flex-col space-y-6 rounded-lg border-3 border-t-4 border-r-4 border-l-4 border-b-10 border-wgh-red-3 bg-wgh-red-2 p-6 md:flex-row md:space-x-6 md:space-y-0"
+            <BorderedContainer
+                class="mb-8 flex flex-col space-y-6 border-wgh-red-3 bg-wgh-red-2 p-6 md:flex-row md:space-x-6 md:space-y-0"
             >
                 <div class="w-full md:w-1/2">
                     <img :src="props.dashboard_art" alt="Dashboard Art" />
@@ -55,7 +56,8 @@ function gameActionButtonClicked(game) {
                         about the platform.
                     </p>
                 </div>
-            </div>
+            </BorderedContainer>
+
             <h1 class="mb-6 font-grota text-2xl font-extrabold text-wgh-gray-6">
                 Games
             </h1>

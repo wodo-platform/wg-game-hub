@@ -4,6 +4,7 @@ import { defineEmits, defineProps } from 'vue';
 import GameOptionsIcon from '@/Shared/SVG/GameOptionsIcon';
 import GameLiveIcon from '@/Shared/SVG/GameLiveIcon';
 import ButtonShape from '@/Shared/ButtonShape';
+import BorderedContainer from '@/Shared/BorderedContainer';
 
 let props = defineProps({
     game: Object,
@@ -13,8 +14,8 @@ defineEmits(['actionButtonClicked']);
 </script>
 
 <template>
-    <div
-        class="mb-5 flex w-full flex-col rounded-2xl border-t-4 border-r-4 border-l-4 border-b-10 border-wgh-gray-1.5 bg-white p-6 md:flex-row"
+    <BorderedContainer
+        class="mb-5 flex w-full flex-col border-wgh-gray-1.5 bg-white p-6 md:flex-row"
     >
         <div
             class="flex w-full flex-col space-y-4 md:w-2/3 md:flex-row md:space-y-0 md:space-x-4"
@@ -91,5 +92,5 @@ defineEmits(['actionButtonClicked']);
                 </ButtonShape>
             </button>
         </div>
-    </div>
+    </BorderedContainer>
 </template>

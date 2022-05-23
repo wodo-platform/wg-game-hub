@@ -2,10 +2,11 @@
 import ExclamationCircleIcon from '@/Shared/SVG/ExclamationCircleIcon';
 import ButtonShape from '@/Shared/ButtonShape';
 import BananoLogo from '@/Shared/SVG/BananoLogo';
+import BorderedContainer from '@/Shared/BorderedContainer';
 </script>
 <template>
-    <div
-        class="flex flex-col items-center rounded-lg border-x-4 border-t-4 border-b-10 border-wgh-gray-1.5 bg-white p-6"
+    <BorderedContainer
+        class="flex flex-col items-center border-wgh-gray-1.5 bg-white p-6"
     >
         <ExclamationCircleIcon class="mb-4 h-10 w-10" />
         <p class="font mt-1 font-grota text-lg font-extrabold text-wgh-gray-6">
@@ -28,5 +29,5 @@ import BananoLogo from '@/Shared/SVG/BananoLogo';
 
             <BananoLogo />
         </div>
-    </div>
+    </BorderedContainer>
 </template>
