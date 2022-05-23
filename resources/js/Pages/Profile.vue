@@ -20,7 +20,7 @@ let activeTransactionNetwork = ref('banano');
             <div class="flex flex-row items-start space-x-5 lg:items-center">
                 <BorderedContainer class="shrink-0 border-wgh-purple-3">
                     <img
-                        src="https://source.unsplash.com/150x150/?human rounded"
+                        src="https://source.unsplash.com/150x150/?human"
                         alt="user profile image"
                         class="h-12 w-12 object-cover md:h-24 md:w-24"
                     />
