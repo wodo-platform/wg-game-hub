@@ -6,7 +6,7 @@ use App\Http\Controllers\{
     ProfileController,
 };
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\GameController;
+use App\Http\Controllers\GamesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,9 +18,7 @@ use App\Http\Controllers\GameController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-
+Route::get('/dashboard', DashboardController::class)->name(name: 'dashboard');
 Route::get('/login', LoginController::class)->name(name: 'login');
 Route::get('/profile', ProfileController::class)->name(name: 'profile');
-Route::get('/game/{game}/show', GameController::class)->name(name: 'show_game');
-Route::get('/', DashboardController::class)->name(name: 'dashboard');
+Route::get('/games/{game}', GamesController::class)->name(name: 'games.show');

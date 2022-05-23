@@ -4,8 +4,9 @@ import DashboardBalanceCard from '@/Shared/DashboardBalanceCard/DashboardBalance
 import DashboardBalanceCardCreateAccount from '@/Shared/DashboardBalanceCard/DashboardBalanceCardCreateAccount';
 import TentModal from '@/Shared/Modals/TentModal';
 import { reactive, ref } from 'vue';
-import WGHButton from '@/Shared/WGHButton';
 import { isEmpty } from 'lodash';
+import ButtonShape from '@/Shared/ButtonShape';
+import { Inertia } from '@inertiajs/inertia';
 
 let props = defineProps({
     dashboard_art: String,
@@ -27,6 +28,7 @@ function playGameModalStartButtonClicked() {
     }
     console.log('starting..', playGameModalSelectedGame.name);
     playGameModalIsOpen.value = false;
+    Inertia.visit('/games/1');
 }
 
 function gameActionButtonClicked(game) {
@@ -39,7 +41,7 @@ function gameActionButtonClicked(game) {
     <div class="flex h-full flex-col px-4 lg:flex-row lg:space-x-6 lg:px-0">
         <div class="w-full lg:w-3/4">
             <div
-                class="border-3 mb-8 flex flex-col space-y-6 rounded-lg border-t-4 border-r-4 border-l-4 border-b-10 border-wgh-red-3 bg-wgh-red-2 p-6 md:flex-row md:space-x-6 md:space-y-0"
+                class="mb-8 flex flex-col space-y-6 rounded-lg border-3 border-t-4 border-r-4 border-l-4 border-b-10 border-wgh-red-3 bg-wgh-red-2 p-6 md:flex-row md:space-x-6 md:space-y-0"
             >
                 <div class="w-full md:w-1/2">
                     <img :src="props.dashboard_art" alt="Dashboard Art" />
@@ -69,16 +71,16 @@ function gameActionButtonClicked(game) {
                     </p>
                 </template>
                 <template v-slot:actions>
-                    <WGHButton
-                        type="gray"
-                        @click.prevent="playGameModalCancelButtonClicked"
-                        >Cancel</WGHButton
-                    >
-                    <WGHButton
-                        type="red"
-                        @click.prevent="playGameModalStartButtonClicked"
-                        >Start</WGHButton
-                    >
+                    <button @click.prevent="playGameModalCancelButtonClicked">
+                        <ButtonShape type="gray">
+                            <span>Cancel</span>
+                        </ButtonShape>
+                    </button>
+                    <button @click.prevent="playGameModalStartButtonClicked">
+                        <ButtonShape type="red">
+                            <span>Start</span>
+                        </ButtonShape>
+                    </button>
                 </template>
             </TentModal>
             <div>

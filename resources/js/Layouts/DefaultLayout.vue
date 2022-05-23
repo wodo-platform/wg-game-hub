@@ -5,8 +5,9 @@ import RocketIcon from '@/Shared/SVG/RocketIcon';
 import SearchIcon from '@/Shared/SVG/SearchIcon';
 import BellIcon from '@/Shared/SVG/BellIcon';
 import AccountIcon from '@/Shared/SVG/AccountIcon';
-import WGHButton from '@/Shared/WGHButton';
 import Footer from '@/Shared/Footer/Footer';
+import ButtonShape from '@/Shared/ButtonShape';
+import { Link } from '@inertiajs/inertia-vue3';
 
 let props = defineProps({
     config: Object,
@@ -27,7 +28,9 @@ let props = defineProps({
                 class="container mx-auto flex flex-row justify-between px-4 lg:px-0"
             >
                 <div class="flex flex-row items-center space-x-14 py-5">
-                    <LogoRed class="w-32" />
+                    <Link href="/dashboard">
+                        <LogoRed class="w-32" />
+                    </Link>
                     <div class="flex flex-row space-x-6">
                         <!--                        <NavigationItem as="link"-->
                         <!--                            ><RocketIcon class="h-6 w-6" /><span-->
@@ -44,10 +47,14 @@ let props = defineProps({
                 <div class="flex flex-row items-center space-x-8">
                     <!--                    <SearchIcon class="h-6 w-6 cursor-pointer" />-->
                     <!--                    <BellIcon class="h-6 w-6 cursor-pointer" />-->
-                    <WGHButton type="purple">
-                        <AccountIcon class="h-6 w-6" />
-                        <span class="font-bold">Danyel</span>
-                    </WGHButton>
+                    <Link href="/profile">
+                        <ButtonShape type="purple">
+                            <span class="flex flex-row space-x-2.5">
+                                <AccountIcon class="h-6 w-6" />
+                                <span class="font-bold">Danyel</span>
+                            </span>
+                        </ButtonShape>
+                    </Link>
                 </div>
             </nav>
         </div>

@@ -1,6 +1,7 @@
 <script setup>
-import WGHButton from '@/Shared/WGHButton';
+import ButtonShape from '@/Shared/ButtonShape';
 import DashboardBalanceCardCoin from '@/Shared/DashboardBalanceCard/DashboardBalanceCardCoin';
+
 let props = defineProps({
     balance: Array,
 });
@@ -16,11 +17,13 @@ let props = defineProps({
             />
         </div>
         <div>
-            <WGHButton type="gray" class="w-full items-center">
-                <span class="w-full text-center font-bold uppercase"
-                    >Top UP</span
-                >
-            </WGHButton>
+            <button class="w-full outline-none">
+                <ButtonShape type="gray">
+                    <span class="w-full text-center font-bold uppercase"
+                        >Top UP</span
+                    >
+                </ButtonShape>
+            </button>
         </div>
     </div>
 </template>

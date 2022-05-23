@@ -1,6 +1,6 @@
 <script setup>
 import ExclamationCircleIcon from '@/Shared/SVG/ExclamationCircleIcon';
-import WGHButton from '@/Shared/WGHButton';
+import ButtonShape from '@/Shared/ButtonShape';
 import BananoLogo from '@/Shared/SVG/BananoLogo';
 </script>
 <template>
@@ -16,15 +16,17 @@ import BananoLogo from '@/Shared/SVG/BananoLogo';
         >
             In order to create a Banano wallet you need to create an account.
         </p>
-        <WGHButton type="gray" class="mb-5 font-bold" as="button"
-            >Create an Account
-        </WGHButton>
+        <button>
+            <ButtonShape type="gray" class="mb-5 font-bold"
+                ><span>Create an Account</span></ButtonShape
+            >
+        </button>
         <div class="flex flex-row space-x-4">
             <p class="font-inter text-xs font-normal uppercase text-[#909399]">
                 Powered By
             </p>
+
             <BananoLogo />
         </div>
     </div>
 </template>
-z

@@ -5,11 +5,9 @@ import SettingsIcon from '@/Shared/SVG/SettingsIcon';
 import MedalIcon from '@/Shared/SVG/MedalIcon';
 import RocketIcon from '@/Shared/SVG/RocketIcon';
 import WatchIcon from '@/Shared/SVG/WatchIcon';
-import WGHButton from '@/Shared/WGHButton';
-import BananoLogo from '@/Shared/SVG/BananoLogo';
-import BananoBalanceIcon from '@/Shared/SVG/BananoBalanceIcon';
 import Banano from '@/Shared/SVG/Banano';
 import CopyIcon from '@/Shared/SVG/CopyIcon';
+import ButtonShape from '@/Shared/ButtonShape';
 </script>
 <template>
     <div class="px-4 lg:p-0">
@@ -267,97 +265,17 @@ import CopyIcon from '@/Shared/SVG/CopyIcon';
                     >
                         My TRANSACTIONS
                     </h2>
-                    <WGHButton type="gray" class="px-8"> TOP UP </WGHButton>
+                    <button>
+                        <ButtonShape type="gray">
+                            <span>TOP UP</span>
+                        </ButtonShape>
+                    </button>
+                    <!--                    <WGHButton type="gray" class="px-8">  </WGHButton>-->
                 </div>
                 <BorderedContainer class="border-wgh-gray-1.5 bg-white p-6">
                     <BorderedContainer
-                        class="relative mx-auto mb-4 flex max-w-2xl flex-row space-x-4 overflow-scroll border-wgh-gray-1.5 p-4"
+                        class="relative mx-auto mb-4 flex max-w-2xl flex-row space-x-4 overflow-auto border-wgh-gray-1.5 p-4"
                     >
-                        <div
-                            class="flex shrink-0 flex-row items-center space-x-4 rounded-lg bg-green-200 p-3"
-                        >
-                            <Banano />
-                            <div class="flex flex-col">
-                                <p
-                                    class="font-inter text-xs font-normal uppercase text-wgh-gray-2"
-                                >
-                                    Balance NANO
-                                </p>
-                                <p
-                                    class="text-sm font-extrabold text-wgh-gray-6"
-                                >
-                                    1828
-                                </p>
-                            </div>
-                        </div>
-                        <div
-                            class="flex shrink-0 flex-row items-center space-x-4 rounded-lg bg-green-200 p-3"
-                        >
-                            <Banano />
-                            <div class="flex flex-col">
-                                <p
-                                    class="font-inter text-xs font-normal uppercase text-wgh-gray-2"
-                                >
-                                    Balance NANO
-                                </p>
-                                <p
-                                    class="text-sm font-extrabold text-wgh-gray-6"
-                                >
-                                    1828
-                                </p>
-                            </div>
-                        </div>
-                        <div
-                            class="flex shrink-0 flex-row items-center space-x-4 rounded-lg bg-green-200 p-3"
-                        >
-                            <Banano />
-                            <div class="flex flex-col">
-                                <p
-                                    class="font-inter text-xs font-normal uppercase text-wgh-gray-2"
-                                >
-                                    Balance NANO
-                                </p>
-                                <p
-                                    class="text-sm font-extrabold text-wgh-gray-6"
-                                >
-                                    1828
-                                </p>
-                            </div>
-                        </div>
-                        <div
-                            class="flex shrink-0 flex-row items-center space-x-4 rounded-lg bg-green-200 p-3"
-                        >
-                            <Banano />
-                            <div class="flex flex-col">
-                                <p
-                                    class="font-inter text-xs font-normal uppercase text-wgh-gray-2"
-                                >
-                                    Balance NANO
-                                </p>
-                                <p
-                                    class="text-sm font-extrabold text-wgh-gray-6"
-                                >
-                                    1828
-                                </p>
-                            </div>
-                        </div>
-                        <div
-                            class="flex shrink-0 flex-row items-center space-x-4 rounded-lg bg-green-200 p-3"
-                        >
-                            <Banano />
-                            <div class="flex flex-col">
-                                <p
-                                    class="font-inter text-xs font-normal uppercase text-wgh-gray-2"
-                                >
-                                    Balance NANO
-                                </p>
-                                <p
-                                    class="text-sm font-extrabold text-wgh-gray-6"
-                                >
-                                    1828
-                                </p>
-                            </div>
-                        </div>
                         <div
                             class="flex shrink-0 flex-row items-center space-x-4 rounded-lg bg-green-200 p-3"
                         >
