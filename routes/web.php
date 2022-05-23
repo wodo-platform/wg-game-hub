@@ -1,7 +1,12 @@
 <?php
 
-use App\Http\Controllers\{Auth\LoginController, DashboardController};
+use App\Http\Controllers\{
+    Auth\LoginController,
+    DashboardController,
+    ProfileController,
+};
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GamesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::get('/dashboard', DashboardController::class)->name(name: 'dashboard');
 Route::get('/login', LoginController::class)->name(name: 'login');
-Route::get('/', DashboardController::class)->name(name: 'dashboard');
+Route::get('/profile', ProfileController::class)->name(name: 'profile');
+Route::get('/games/{game}', GamesController::class)->name(name: 'games.show');
