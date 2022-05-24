@@ -3,7 +3,7 @@ import Logo from '@/Shared/SVG/Logo';
 import TextInput from '@/Shared/Inputs/TextInput';
 import { ref } from 'vue';
 import InputError from '@/Shared/InputError';
-import WGHButton from '@/Shared/WGHButton';
+import ButtonShape from '@/Shared/ButtonShape';
 
 let isRegister = ref(false);
 
@@ -83,18 +83,16 @@ defineProps({
                             >forgot password</a
                         >
                     </div>
-                    <WGHButton
-                        type="purple"
-                        class="block w-full text-center"
-                        as="button"
-                    >
-                        <span v-if="isRegister" class="w-full uppercase"
-                            >Sign up</span
-                        >
-                        <span v-if="!isRegister" class="w-full uppercase"
-                            >Sign in</span
-                        >
-                    </WGHButton>
+                    <button class="w-full" @click.prevent>
+                        <ButtonShape type="purple">
+                            <span v-if="isRegister" class="w-full uppercase"
+                                >Sign up</span
+                            >
+                            <span v-if="!isRegister" class="w-full uppercase"
+                                >Sign in</span
+                            >
+                        </ButtonShape>
+                    </button>
                 </form>
                 <p
                     class="text-center font-inter text-sm capitalize text-[#909399]"

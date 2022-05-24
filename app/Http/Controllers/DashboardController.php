@@ -36,18 +36,21 @@ class DashboardController extends Controller
         ];
         $balance = [
             [
+                'id' => 1,
                 'name' => 'BANANO',
                 'image' => '',
                 'balance' => 3275,
                 'address' => '1PQi1jwKr4cnfFYKgeHAAAdf1PQi1jwKr4cnfFYKgeHAAAd',
             ],
             [
+                'id' => 2,
                 'name' => 'BTC',
                 'image' => '',
                 'balance' => 3,
                 'address' => 'cnfFYKgeHAAAdf1PQi1jwK1PQi1jwKr4r4cnfFYKgeHAAAd',
             ],
             [
+                'id' => 3,
                 'name' => 'NANO',
                 'image' => '',
                 'balance' => 30000,

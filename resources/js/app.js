@@ -5,7 +5,9 @@ import { InertiaProgress } from '@inertiajs/progress';
 import { createInertiaApp } from '@inertiajs/inertia-vue3';
 import DefaultLayout from '@/Layouts/DefaultLayout';
 
-InertiaProgress.init();
+InertiaProgress.init({
+    color: '#FF3815',
+});
 
 createInertiaApp({
     resolve: (name) => {
