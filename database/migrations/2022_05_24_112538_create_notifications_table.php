@@ -17,9 +17,9 @@ return new class extends Migration {
             $table->string('type');
             $table->morphs('notifiable');
             $table->text('data');
-            $table->softDeletes();
             $table->timestamp('read_at')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
