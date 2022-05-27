@@ -11,7 +11,7 @@ import BorderedContainer from '@/Shared/BorderedContainer';
 
 let props = defineProps({
     dashboard_art: String,
-    games: Array,
+    games: Object,
     balance: Array,
 });
 
@@ -29,7 +29,9 @@ function playGameModalStartButtonClicked() {
     }
     console.log('starting..', playGameModalSelectedGame.name);
     playGameModalIsOpen.value = false;
-    Inertia.visit('/games/1');
+    Inertia.visit('/games/' + playGameModalSelectedGame.id, {
+        preserveScroll: false,
+    });
 }
 
 function gameActionButtonClicked(game) {
@@ -89,7 +91,7 @@ function gameActionButtonClicked(game) {
                 <GameCard
                     @actionButtonClicked="gameActionButtonClicked(game)"
                     :key="game.id"
-                    v-for="game in props.games"
+                    v-for="game in props.games.data"
                     :game="game"
                 />
             </div>

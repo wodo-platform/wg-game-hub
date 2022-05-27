@@ -21,4 +21,4 @@ use App\Http\Controllers\GamesController;
 Route::get('/dashboard', DashboardController::class)->name(name: 'dashboard');
 Route::get('/login', LoginController::class)->name(name: 'login');
 Route::get('/profile', ProfileController::class)->name(name: 'profile');
-Route::get('/games/{game}', GamesController::class)->name(name: 'games.show');
+Route::resource('games', GamesController::class)->only('show');
