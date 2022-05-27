@@ -5,14 +5,65 @@ import BorderedContainer from '@/Shared/BorderedContainer';
 import ButtonShape from '@/Shared/ButtonShape';
 import ChevronLeft from '@/Shared/SVG/ChevronLeft';
 import { Link } from '@inertiajs/inertia-vue3';
+import { reactive, ref } from 'vue';
+import { isEmpty } from 'lodash';
+import TentModal from '@/Shared/Modals/TentModal';
 
 let props = defineProps({
     game: Object,
     gameOptions: Object,
 });
+
+let startGameConfirmationModalIsOpen = ref(false);
+let selectedGameOption = reactive({});
+
+// Open Modal and set the selected game option
+function startGameButtonClicked(gameOption) {
+    selectedGameOption = gameOption;
+    startGameConfirmationModalIsOpen.value = true;
+}
+
+function modalStartGameButtonClicked() {
+    if (isEmpty(selectedGameOption)) {
+        return;
+    }
+
+    console.log('starting...', props.game.name, ' : ', selectedGameOption.name);
+    startGameConfirmationModalIsOpen.value = false;
+    // initialize the game
+}
+
+function modalCancelGameButtonClicked() {
+    startGameConfirmationModalIsOpen.value = false;
+    selectedGameOption = {};
+}
 </script>
 
 <template>
+    <TentModal :open="startGameConfirmationModalIsOpen">
+        <template v-slot:header><p>Hello!</p></template>
+        <template v-slot:title>
+            <p>A small description about the first section.</p>
+        </template>
+        <template v-slot:subtitle>
+            <p class="wgh-gray-6 font-inter text-base font-normal">
+                A small description about the first section explaining about the
+                platform.
+            </p>
+        </template>
+        <template v-slot:actions>
+            <button @click.prevent="modalCancelGameButtonClicked">
+                <ButtonShape type="gray">
+                    <span>Cancel</span>
+                </ButtonShape>
+            </button>
+            <button @click.prevent="modalStartGameButtonClicked">
+                <ButtonShape type="red">
+                    <span>Start</span>
+                </ButtonShape>
+            </button>
+        </template>
+    </TentModal>
     <div>
         <BorderedContainer
             class="mb-10 flex flex-col justify-between border-wgh-purple-3 bg-wgh-purple-2 p-7 md:flex-row"
@@ -81,6 +132,7 @@ let props = defineProps({
                 v-for="option in gameOptions.data"
                 :key="option.id"
                 class="max-w-3xl bg-white p-6"
+                :style="{ 'border-color': `${option.theme_color}` }"
             >
                 <div class="aspect-w-16 aspect-h-9 mb-4">
                     <img
@@ -99,7 +151,10 @@ let props = defineProps({
                         <span>{{ option.base_entrance_fee }}</span>
                     </div>
                 </div>
-                <button class="mb-6 w-full uppercase">
+                <button
+                    class="mb-6 w-full uppercase"
+                    @click.prevent="startGameButtonClicked(option)"
+                >
                     <ButtonShape type="red">
                         <span class="w-full">Start Playing</span>
                     </ButtonShape>

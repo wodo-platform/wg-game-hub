@@ -18,7 +18,7 @@ class GameLoungeFactory extends Factory
         return [
             'name' => $this->faker->name(),
             'image' => $this->faker->imageUrl(337, 110),
-            'theme_color' => $this->faker->word(),
+            'theme_color' => $this->faker->safeHexColor(),
             'type' => $this->faker->randomElement(GameLoungeType::cases()),
             'status' => $this->faker->randomElement(GameLoungeStatus::cases()),
             'rules' => $this->faker->paragraph(),

@@ -1,5 +1,6 @@
 <script setup>
-import { defineEmits, defineProps } from 'vue';
+import { defineProps } from 'vue';
+import { Link } from '@inertiajs/inertia-vue3';
 
 import GameOptionsIcon from '@/Shared/SVG/GameOptionsIcon';
 import GameLiveIcon from '@/Shared/SVG/GameLiveIcon';
@@ -9,7 +10,6 @@ import BorderedContainer from '@/Shared/BorderedContainer';
 let props = defineProps({
     game: Object,
 });
-defineEmits(['actionButtonClicked']);
 </script>
 
 <template>
@@ -76,13 +76,11 @@ defineEmits(['actionButtonClicked']);
         <div
             class="mt-4 flex flex-col items-center justify-end md:mt-0 md:w-1/3 md:flex-row md:items-baseline"
         >
-            <button
-                @click.prevent.stop="$emit('actionButtonClicked', props.game)"
-            >
+            <Link :href="`/games/${game.id}`">
                 <ButtonShape type="red">
                     <span>Choose Game</span>
                 </ButtonShape>
-            </button>
+            </Link>
         </div>
     </BorderedContainer>
 </template>
