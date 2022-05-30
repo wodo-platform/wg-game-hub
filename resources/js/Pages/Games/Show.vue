@@ -5,13 +5,66 @@ import BorderedContainer from '@/Shared/BorderedContainer';
 import ButtonShape from '@/Shared/ButtonShape';
 import ChevronLeft from '@/Shared/SVG/ChevronLeft';
 import { Link } from '@inertiajs/inertia-vue3';
+import { reactive, ref } from 'vue';
+import { isEmpty } from 'lodash';
+import TentModal from '@/Shared/Modals/TentModal';
 
 let props = defineProps({
     game: Object,
+    gameOptions: Object,
 });
+
+let startGameConfirmationModalIsOpen = ref(false);
+let selectedGameOption = reactive({});
+
+// Open Modal and set the selected game option
+function startGameButtonClicked(gameOption) {
+    selectedGameOption = gameOption;
+    startGameConfirmationModalIsOpen.value = true;
+}
+
+function modalStartGameButtonClicked() {
+    if (isEmpty(selectedGameOption)) {
+        return;
+    }
+
+    console.log('starting...', props.game.name, ' : ', selectedGameOption.name);
+    startGameConfirmationModalIsOpen.value = false;
+    // initialize the game
+}
+
+function modalCancelGameButtonClicked() {
+    startGameConfirmationModalIsOpen.value = false;
+    selectedGameOption = {};
+}
 </script>
 
 <template>
+    <TentModal :open="startGameConfirmationModalIsOpen">
+        <template v-slot:header><p>Hello!</p></template>
+        <template v-slot:title>
+            <p>A small description about the first section.</p>
+        </template>
+        <template v-slot:subtitle>
+            <p class="wgh-gray-6 font-inter text-base font-normal">
+                A small description about the first section explaining about the
+                platform.
+            </p>
+        </template>
+        <template v-slot:actions>
+            <button @click.prevent="modalCancelGameButtonClicked">
+                <ButtonShape type="gray">
+                    <span>Cancel</span>
+                </ButtonShape>
+            </button>
+            <button @click.prevent="modalStartGameButtonClicked">
+                <ButtonShape type="red">
+                    <span>Start</span>
+                </ButtonShape>
+            </button>
+        </template>
+    </TentModal>
+
     <div>
         <BorderedContainer
             class="mb-10 flex flex-col justify-between border-wgh-purple-3 bg-wgh-purple-2 p-7 md:flex-row"
@@ -28,12 +81,14 @@ let props = defineProps({
                     >
                         {{ game.name }}
                     </h1>
-                    <p class="font-inter text-sm font-normal text-white">
+                    <p
+                        class="max-w-3xl font-inter text-sm font-normal text-white"
+                    >
                         {{ game.description }}
                     </p>
                 </div>
             </div>
-            <div class="flex flex-row divide-x divide-wgh-gray-0.5">
+            <div class="flex shrink-0 flex-row divide-x divide-wgh-gray-0.5">
                 <div
                     class="flex flex-row items-center space-x-2 pr-4 md:space-x-4"
                 >
@@ -46,7 +101,7 @@ let props = defineProps({
                         <span
                             class="font-grota text-sm font-normal uppercase text-white"
                             >{{
-                                game.game_options_count.toLocaleString('en')
+                                gameOptions.total.toLocaleString('en')
                             }}
                             Options</span
                         >
@@ -64,8 +119,7 @@ let props = defineProps({
                         <span
                             class="font-grota text-sm font-normal uppercase text-white"
                         >
-                            {{ game.total_online_players.toLocaleString('en') }}
-                            Players</span
+                            1000 Players</span
                         >
                     </div>
                 </div>
@@ -76,26 +130,31 @@ let props = defineProps({
             class="flex grid grid-cols-1 flex-row flex-wrap gap-6 md:grid-cols-2 lg:grid-cols-3 lg:px-12"
         >
             <borderedContainer
-                v-for="option in game.options"
+                v-for="option in gameOptions.data"
                 :key="option.id"
                 class="max-w-3xl bg-white p-6"
+                :style="{ 'border-color': `${option.theme_color}` }"
             >
-                <img
-                    :src="option.image"
-                    :alt="`${game.name} - ${option.title} Art`"
-                    class="mb-4"
-                />
+                <div class="aspect-w-16 aspect-h-9 mb-4">
+                    <img
+                        :src="option.image"
+                        :alt="`${game.name} - ${option.name} Art`"
+                    />
+                </div>
                 <div class="mb-4 flex flex-row justify-between">
                     <h2
                         class="font-grota text-xl font-extrabold uppercase text-wgh-gray-6"
                     >
-                        {{ option.title }}
+                        {{ option.name }}
                     </h2>
                     <div class="text-bold font-grota text-base text-wgh-gray-6">
-                        <span>{{ option.price }}</span>
+                        <span>{{ option.base_entrance_fee }}</span>
                     </div>
                 </div>
-                <button class="mb-6 w-full uppercase">
+                <button
+                    class="mb-6 w-full uppercase"
+                    @click.prevent="startGameButtonClicked(option)"
+                >
                     <ButtonShape type="red">
                         <span class="w-full">Start Playing</span>
                     </ButtonShape>
@@ -107,11 +166,11 @@ let props = defineProps({
                     >
                         Game Rules
                     </p>
-                    <ul
+                    <div
                         class="list-inside list-disc font-inter text-sm font-normal text-wgh-gray-4"
                     >
-                        <li v-for="rule in option.rules">{{ rule }}</li>
-                    </ul>
+                        {{ option?.rules }}
+                    </div>
                 </div>
             </borderedContainer>
         </div>

@@ -11,6 +11,10 @@ import ButtonShape from '@/Shared/ButtonShape';
 import { ref } from 'vue';
 
 let activeTransactionNetwork = ref('banano');
+
+let props = defineProps({
+    user: Object,
+});
 </script>
 <template>
     <div>
@@ -30,7 +34,7 @@ let activeTransactionNetwork = ref('banano');
                         <h1
                             class="font-grota text-lg font-extrabold capitalize text-wgh-gray-6"
                         >
-                            John Smith
+                            {{ user.full_name }}
                         </h1>
                         <Link
                             class="space-x-2 font-inter text-xs font-normal text-wgh-gray-4 md:hidden"
@@ -39,7 +43,7 @@ let activeTransactionNetwork = ref('banano');
                         /></Link>
                     </div>
                     <p class="font-inter text-sm font-normal text-wgh-gray-4">
-                        <span class="mr-2">🇳🇱</span> Amsterdam, NL
+                        <span class="mr-2">🇨🇱</span> Chile
                     </p>
                     <p class="font-enter text-base font-normal text-black">
                         🎮 Keep calm and game on 🕹

@@ -2,16 +2,11 @@
 import GameCard from '@/Shared/GameCard';
 import DashboardBalanceCard from '@/Shared/DashboardBalanceCard/DashboardBalanceCard';
 import DashboardBalanceCardCreateAccount from '@/Shared/DashboardBalanceCard/DashboardBalanceCardCreateAccount';
-import TentModal from '@/Shared/Modals/TentModal';
-import { reactive, ref } from 'vue';
-import { isEmpty } from 'lodash';
-import ButtonShape from '@/Shared/ButtonShape';
-import { Inertia } from '@inertiajs/inertia';
 import BorderedContainer from '@/Shared/BorderedContainer';
 
 let props = defineProps({
     dashboard_art: String,
-    games: Array,
+    games: Object,
     balance: Array,
 });
 
@@ -89,7 +84,7 @@ function gameActionButtonClicked(game) {
                 <GameCard
                     @actionButtonClicked="gameActionButtonClicked(game)"
                     :key="game.id"
-                    v-for="game in props.games"
+                    v-for="game in props.games.data"
                     :game="game"
                 />
             </div>

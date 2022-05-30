@@ -1,5 +1,6 @@
 <script setup>
-import { defineEmits, defineProps } from 'vue';
+import { defineProps } from 'vue';
+import { Link } from '@inertiajs/inertia-vue3';
 
 import GameOptionsIcon from '@/Shared/SVG/GameOptionsIcon';
 import GameLiveIcon from '@/Shared/SVG/GameLiveIcon';
@@ -21,7 +22,7 @@ defineEmits(['actionButtonClicked']);
             class="flex w-full flex-col space-y-4 md:w-2/3 md:flex-row md:space-y-0 md:space-x-4"
         >
             <img
-                :src="game.game_art"
+                :src="game.image"
                 :alt="`${game.name} art`"
                 class="aspect-[16/9] md:mb-0 md:max-h-[6.25rem]"
             />
@@ -49,9 +50,7 @@ defineEmits(['actionButtonClicked']);
                             <span
                                 class="font-grota text-sm font-normal uppercase text-wgh-gray-6"
                                 >{{
-                                    game.meta.game_options_count.toLocaleString(
-                                        'en'
-                                    )
+                                    game.game_lounges_count.toLocaleString('en')
                                 }}
                                 Options</span
                             >
@@ -69,12 +68,7 @@ defineEmits(['actionButtonClicked']);
                             <span
                                 class="font-grota text-sm font-normal uppercase text-wgh-gray-6"
                             >
-                                {{
-                                    game.meta.total_online_players.toLocaleString(
-                                        'en'
-                                    )
-                                }}
-                                Players</span
+                                1000 Players</span
                             >
                         </div>
                     </div>
@@ -84,13 +78,11 @@ defineEmits(['actionButtonClicked']);
         <div
             class="mt-4 flex flex-col items-center justify-end md:mt-0 md:w-1/3 md:flex-row md:items-baseline"
         >
-            <button
-                @click.prevent.stop="$emit('actionButtonClicked', props.game)"
-            >
+            <Link :href="`/games/${game.id}`">
                 <ButtonShape type="red">
                     <span>Choose Game</span>
                 </ButtonShape>
-            </button>
+            </Link>
         </div>
     </BorderedContainer>
 </template>

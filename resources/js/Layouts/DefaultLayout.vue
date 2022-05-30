@@ -19,6 +19,7 @@ import {
 import { MenuIcon, XIcon, BellIcon } from '@heroicons/vue/outline';
 import { reactive } from 'vue';
 
+
 const user = reactive({
     name: 'John Smith',
     email: 'john@wodo.io',
@@ -35,6 +36,7 @@ const userNavigation = [
 
 let props = defineProps({
     config: Object,
+    user: Object,
 });
 </script>
 <template>
@@ -74,7 +76,9 @@ let props = defineProps({
                         <ButtonShape type="purple">
                             <span class="flex flex-row space-x-2.5">
                                 <AccountIcon class="h-6 w-6" />
-                                <span class="font-bold">John</span>
+                                <span class="font-bold">{{
+                                    user.first_name
+                                }}</span>
                             </span>
                         </ButtonShape>
                     </Link>
@@ -187,10 +191,12 @@ let props = defineProps({
                                         </div>
                                         <div class="pt-4 pb-2">
                                             <div class="flex items-center px-5">
-                                                <div class="flex-shrink-0">
+                                                <div
+                                                    class="aspect-square flex-shrink-0"
+                                                >
                                                     <img
                                                         class="h-10 w-10 rounded-full"
-                                                        :src="user.imageUrl"
+                                                        :src="user.image"
                                                         alt=""
                                                     />
                                                 </div>
@@ -241,7 +247,9 @@ let props = defineProps({
             </div>
         </div>
         <div class="container mx-auto h-full flex-1 px-4 lg:mt-0">
+            <!--            <transition name="page">-->
             <slot />
+            <!--            </transition>-->
         </div>
         <div class="mx-auto mt-8 w-full bg-white py-2">
             <Footer />

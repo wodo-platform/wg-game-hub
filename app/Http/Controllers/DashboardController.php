@@ -2,38 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Game;
 use Inertia\Inertia;
 
 class DashboardController extends Controller
 {
     public function __invoke()
     {
-        $fakeData = [
-            [
-                'id' => 1,
-                'game_art' => asset('images/game-art.png'),
-                'name' => 'Snake.io',
-                'description' =>
-                    'Anim eu ea voluptate deserunt eiusmod esse ea proident consequat ea ut ut ad magna.',
-                'url' => '',
-                'meta' => [
-                    'game_options_count' => 8,
-                    'total_online_players' => 1392,
-                ],
-            ],
-            [
-                'id' => 2,
-                'game_art' => asset('images/game-art.png'),
-                'name' => 'agar.io',
-                'description' =>
-                    'Reprehenderit esse velit irure magna tempor duis dolor.',
-                'url' => '',
-                'meta' => [
-                    'game_options_count' => 6,
-                    'total_online_players' => 1921,
-                ],
-            ],
-        ];
+        $games = Game::online()
+            ->forDashboard()
+            ->withCount('gameLounges')
+            ->paginate();
         $balance = [
             [
                 'id' => 1,
@@ -57,9 +36,10 @@ class DashboardController extends Controller
                 'address' => 'wKr4cnfFYKgeHAAAd1PQi1jwKr4cnfFYKgeHAAAdf1PQi1j',
             ],
         ];
+
         return Inertia::render('Dashboard', [
             'dashboard_art' => asset('images/dashboard-art.png'),
-            'games' => $fakeData,
+            'games' => $games,
             'balance' => $balance,
         ]);
     }
