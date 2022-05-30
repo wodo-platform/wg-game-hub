@@ -19,6 +19,13 @@ import {
 import { MenuIcon, XIcon, BellIcon } from '@heroicons/vue/outline';
 import { reactive } from 'vue';
 
+
+const user = reactive({
+    name: 'John Smith',
+    email: 'john@wodo.io',
+    imageUrl: 'https://source.unsplash.com/150x150/?human',
+});
+
 const navigation = [
     { name: 'Dashboard', href: '/dashboard', current: true, external: false },
 ];

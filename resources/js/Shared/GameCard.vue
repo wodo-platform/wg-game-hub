@@ -10,6 +10,8 @@ import BorderedContainer from '@/Shared/BorderedContainer';
 let props = defineProps({
     game: Object,
 });
+
+defineEmits(['actionButtonClicked']);
 </script>
 
 <template>

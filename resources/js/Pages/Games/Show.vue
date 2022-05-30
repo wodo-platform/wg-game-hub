@@ -64,6 +64,7 @@ function modalCancelGameButtonClicked() {
             </button>
         </template>
     </TentModal>
+
     <div>
         <BorderedContainer
             class="mb-10 flex flex-col justify-between border-wgh-purple-3 bg-wgh-purple-2 p-7 md:flex-row"
@@ -140,7 +141,6 @@ function modalCancelGameButtonClicked() {
                         :alt="`${game.name} - ${option.name} Art`"
                     />
                 </div>
-
                 <div class="mb-4 flex flex-row justify-between">
                     <h2
                         class="font-grota text-xl font-extrabold uppercase text-wgh-gray-6"
