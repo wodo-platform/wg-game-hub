@@ -20,5 +20,5 @@ use App\Http\Controllers\GamesController;
 */
 Route::get('/dashboard', DashboardController::class)->name(name: 'dashboard');
 Route::get('/login', LoginController::class)->name(name: 'login');
-Route::get('/profile', ProfileController::class)->name(name: 'profile');
+Route::get('/profile', ProfileController::class)->middleware('auth')->name(name: 'profile');
 Route::resource('games', GamesController::class)->only('show');

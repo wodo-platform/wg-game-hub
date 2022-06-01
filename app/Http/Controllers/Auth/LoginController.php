@@ -13,5 +13,5 @@ class LoginController extends Controller
         return Inertia::render('Auth/Login', [
             'login_art' => asset('images/login-art.jpeg'),
         ]);
-    }
+    } 
 }
