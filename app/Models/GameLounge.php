@@ -31,7 +31,7 @@ class GameLounge extends Model
     {
         return $this->belongsTo(Game::class);
     }
-
+  
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class);
