@@ -2,12 +2,17 @@
 import GameCard from '@/Shared/GameCard';
 import DashboardBalanceCard from '@/Shared/DashboardBalanceCard/DashboardBalanceCard';
 import DashboardBalanceCardCreateAccount from '@/Shared/DashboardBalanceCard/DashboardBalanceCardCreateAccount';
+import ButtonShape from '@/Shared/ButtonShape';
+import TentModal from '@/Shared/Modals/TentModal';
+
 import BorderedContainer from '@/Shared/BorderedContainer';
+import { ref, reactive } from 'vue';
 
 let props = defineProps({
     dashboard_art: String,
     games: Object,
     balance: Array,
+    user: Object,
 });
 
 let playGameModalIsOpen = ref(false);
@@ -90,8 +95,8 @@ function gameActionButtonClicked(game) {
             </div>
         </div>
         <div class="h-full w-full space-y-6 lg:w-1/4">
-            <DashboardBalanceCard :balance="balance" />
-            <DashboardBalanceCardCreateAccount />
+            <DashboardBalanceCard v-if="user" :balance="balance" />
+            <DashboardBalanceCardCreateAccount v-if="!user" />
         </div>
     </div>
 </template>

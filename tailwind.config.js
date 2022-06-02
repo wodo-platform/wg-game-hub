@@ -37,6 +37,7 @@ module.exports = {
                 'wgh-turquoise-2': '#26E1ED',
 
                 'wgh-yellow-2': '#FBDD11',
+                'wgh-yellow-3': '#FFA722',
             },
             borderWidth: {
                 3: '3px',
