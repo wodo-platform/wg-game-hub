@@ -60,7 +60,7 @@ return [
     |
     */
 
-    'home' => RouteServiceProvider::PROFILE,
+    'home' => RouteServiceProvider::HOME,
 
     /*
     |--------------------------------------------------------------------------
@@ -117,7 +117,7 @@ return [
     |
     */
 
-    'views' => false,
+    'views' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -132,14 +132,14 @@ return [
 
     'features' => [
         Features::registration(),
-        Features::resetPasswords(),
+        //        Features::resetPasswords(),
         // Features::emailVerification(),
-        Features::updateProfileInformation(),
-        Features::updatePasswords(),
-        Features::twoFactorAuthentication([
-            'confirm' => true,
-            'confirmPassword' => true,
-            // 'window' => 0,
-        ]),
+        //        Features::updateProfileInformation(),
+        //        Features::updatePasswords(),
+        //        Features::twoFactorAuthentication([
+        //            'confirm' => true,
+        //            'confirmPassword' => true,
+        //            // 'window' => 0,
+        //        ]),
     ],
 ];

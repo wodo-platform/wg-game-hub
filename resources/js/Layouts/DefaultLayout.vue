@@ -17,14 +17,6 @@ import {
     TransitionRoot,
 } from '@headlessui/vue';
 import { MenuIcon, XIcon, BellIcon } from '@heroicons/vue/outline';
-import { reactive } from 'vue';
-
-
-const user = reactive({
-    name: 'John Smith',
-    email: 'john@wodo.io',
-    imageUrl: 'https://source.unsplash.com/150x150/?human',
-});
 
 const navigation = [
     { name: 'Dashboard', href: '/dashboard', current: true, external: false },
@@ -63,22 +55,31 @@ let props = defineProps({
                             as="link"
                             v-for="link in navigation"
                             :key="link.name"
-                            ><RocketIcon class="h-6 w-6" /><span>{{
-                                link.name
-                            }}</span></NavigationItem
+                        >
+                            <RocketIcon class="h-6 w-6" />
+                            <span>{{ link.name }}</span></NavigationItem
                         >
                     </div>
                 </div>
                 <div class="hidden flex-row items-center space-x-8 lg:flex">
                     <!--                    <SearchIcon class="h-6 w-6 cursor-pointer" />-->
                     <!--                    <BellIcon class="h-6 w-6 cursor-pointer" />-->
-                    <Link href="/profile">
+                    <Link v-if="user" href="/profile">
                         <ButtonShape type="purple">
                             <span class="flex flex-row space-x-2.5">
                                 <AccountIcon class="h-6 w-6" />
-                                <span class="font-bold">{{
-                                    user.first_name
+                                <span class="font-bold uppercase">{{
+                                    user.name
                                 }}</span>
+                            </span>
+                        </ButtonShape>
+                    </Link>
+                    <Link v-if="!user" href="/login">
+                        <ButtonShape type="purple">
+                            <span class="flex flex-row space-x-2.5">
+                                <span class="font-bold uppercase"
+                                    >Login / Register</span
+                                >
                             </span>
                         </ButtonShape>
                     </Link>
@@ -181,9 +182,11 @@ let props = defineProps({
                                                     as="link"
                                                     v-for="link in navigation"
                                                     :key="link.name"
-                                                    ><RocketIcon
+                                                >
+                                                    <RocketIcon
                                                         class="h-6 w-6"
-                                                    /><span>{{
+                                                    />
+                                                    <span>{{
                                                         link.name
                                                     }}</span></NavigationItem
                                                 >
@@ -206,7 +209,7 @@ let props = defineProps({
                                                     <div
                                                         class="truncate text-base font-medium text-gray-800"
                                                     >
-                                                        {{ user.name }}
+                                                        {{ user.full_name }}
                                                     </div>
                                                     <div
                                                         class="truncate text-sm font-medium text-gray-500"
@@ -246,7 +249,9 @@ let props = defineProps({
                 </Popover>
             </div>
         </div>
-        <div class="container mx-auto h-full flex-1 px-4 lg:mt-0">
+        <div
+            class="container mx-auto flex h-full flex-1 flex-grow flex-col px-4 lg:mt-0"
+        >
             <!--            <transition name="page">-->
             <slot />
             <!--            </transition>-->

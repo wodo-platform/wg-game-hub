@@ -4,6 +4,8 @@ import GameLiveIcon from '@/Shared/SVG/GameLiveIcon';
 import BorderedContainer from '@/Shared/BorderedContainer';
 import ButtonShape from '@/Shared/ButtonShape';
 import ChevronLeft from '@/Shared/SVG/ChevronLeft';
+import { Inertia } from '@inertiajs/inertia';
+
 import { Link } from '@inertiajs/inertia-vue3';
 import { reactive, ref } from 'vue';
 import { isEmpty } from 'lodash';
@@ -28,7 +30,10 @@ function modalStartGameButtonClicked() {
         return;
     }
 
-    console.log('starting...', props.game.name, ' : ', selectedGameOption.name);
+    Inertia.post(`/game-lounges/${selectedGameOption.id}/join`);
+    // Participate in session
+    // and redirect to lounge
+
     startGameConfirmationModalIsOpen.value = false;
     // initialize the game
 }

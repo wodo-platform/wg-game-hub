@@ -3,10 +3,14 @@
 use App\Http\Controllers\{
     Auth\LoginController,
     DashboardController,
+    GameLounges\GameLoungeJoinController,
+    GameLounges\GameLoungeLeaveController,
+    GameLounges\GameLoungeChatMessageController,
+    GameLounges\GameLoungesController,
     ProfileController,
 };
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GamesController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,7 +22,33 @@ use App\Http\Controllers\GamesController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 Route::get('/dashboard', DashboardController::class)->name(name: 'dashboard');
-Route::get('/login', LoginController::class)->name(name: 'login');
-Route::get('/profile', ProfileController::class)->middleware('auth')->name(name: 'profile');
 Route::resource('games', GamesController::class)->only('show');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', ProfileController::class)
+        ->middleware('auth')
+        ->name(name: 'profile');
+
+    Route::resource('games.game-lounges', GameLoungesController::class)
+        ->parameters(['game-lounges' => 'gameLounge'])
+        ->shallow()
+        ->only('show');
+
+    // GameLounges
+    Route::post(
+        'game-lounges/{gameLounge}/join',
+        GameLoungeJoinController::class,
+    )->name('game-lounges.join');
+
+    Route::delete(
+        'game-lounges/{gameLounge}/leave',
+        GameLoungeLeaveController::class,
+    )->name('game-lounges.leave');
+
+    Route::post(
+        'game-lounges/{gameLounge}/message',
+        GameLoungeChatMessageController::class,
+    )->name('game-lounges.message');
+});

@@ -1,27 +1,11 @@
-<script >
-
+<script setup>
+defineProps(['modelValue']);
+defineEmits(['update:modelValue']);
 </script>
 <template>
-  <input
-   @change="eventHandler"
-     :name="nameText"
-     
-   class="flex w-full px-4 py-2 placeholder-wgh-gray-3 font-normal text-sm text-wgh-gray-6 flex-none border border-wgh-gray-1 rounded outline-none pr-10 font-grota" />
+    <input
+        :value="modelValue"
+        @input="$emit('update:modelValue', $event.target.value)"
+        class="flex w-full flex-none rounded border border-wgh-gray-1 px-4 py-2 pr-10 font-grota text-sm font-normal text-wgh-gray-6 placeholder-wgh-gray-3 outline-none"
+    />
 </template>
-<script>
-export default {
-  props: {
-      onChange: {
-        type: Function
-      },
-      nameText:{
-        type: String
-      },
-    },
-  methods:{
-    eventHandler(e){
-      this.onChange({value: e.target.value, name: this.nameText});
-    }
-  }
-}
-</script>
