@@ -10,12 +10,12 @@ return new class extends Migration {
         Schema::create('lounge_user', function (Blueprint $table) {
             $table->id();
             $table
-                ->foreignId('user_id')
+                ->foreignUuid('user_id')
                 ->constrained('users')
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
             $table
-                ->foreignId('game_lounge_id')
+                ->foreignUuid('game_lounge_id')
                 ->constrained('game_lounges')
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();

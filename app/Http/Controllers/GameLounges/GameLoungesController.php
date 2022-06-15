@@ -11,7 +11,7 @@ class GameLoungesController extends Controller
     public function show(GameLounge $gameLounge)
     {
         $gameLounge->load(
-            'game:id,name,slug,description',
+            'game:id,name,description',
             'users:id,name,image,username',
         );
         return Inertia::render('Games/Lounges/Show', [

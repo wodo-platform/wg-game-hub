@@ -8,9 +8,9 @@ return new class extends Migration {
     public function up()
     {
         Schema::create('game_lounges', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table
-                ->foreignId('game_id')
+                ->foreignUuid('game_id')
                 ->constrained('games')
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
