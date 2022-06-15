@@ -7,19 +7,15 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up()
     {
-        Schema::create('games', function (Blueprint $table) {
+        Schema::create('chat_rooms', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('name');
-            $table->text('description')->nullable();
-            $table->integer('status')->index();
-            $table->string('image')->nullable();
+            $table->integer('type')->index();
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('games');
+        Schema::dropIfExists('chat_rooms');
     }
 };

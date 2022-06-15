@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Builders\GameBuilder;
 use App\Enums\GameStatus;
+use App\Models\Concerns\HasUUID;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -13,6 +14,7 @@ class Game extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    use HasUUID;
 
     protected $casts = [
         'status' => GameStatus::class,

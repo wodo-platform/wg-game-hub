@@ -86,7 +86,7 @@ let props = defineProps({
                 </div>
             </nav>
             <div
-                class="container flex w-full flex-shrink-0 flex-row items-center justify-between bg-white px-4 lg:hidden"
+                class="container mx-auto flex w-full flex-shrink-0 flex-row items-center justify-between bg-white px-4 lg:hidden"
             >
                 <Link href="/dashboard">
                     <LogoRed class="w-32 py-5" />
@@ -192,7 +192,7 @@ let props = defineProps({
                                                 >
                                             </div>
                                         </div>
-                                        <div class="pt-4 pb-2">
+                                        <div v-if="user" class="pt-4 pb-2">
                                             <div class="flex items-center px-5">
                                                 <div
                                                     class="aspect-square flex-shrink-0"

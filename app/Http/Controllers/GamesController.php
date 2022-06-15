@@ -10,7 +10,7 @@ class GamesController extends Controller
     public function show(Game $game)
     {
         return Inertia::render('Games/Show', [
-            'game' => $game->only(['name', 'slug', 'description', 'image']),
+            'game' => $game->only(['name', 'description', 'image']),
             'gameOptions' => $game->gameLounges()->paginate(),
         ]);
     }

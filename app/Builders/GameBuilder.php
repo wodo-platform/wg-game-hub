@@ -14,6 +14,6 @@ class GameBuilder extends Builder
 
     public function forDashboard(): Builder
     {
-        return $this->select(['id', 'name', 'slug', 'description', 'image']);
+        return $this->select(['id', 'name', 'description', 'image']);
     }
 }

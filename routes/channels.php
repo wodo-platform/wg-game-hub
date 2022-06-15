@@ -1,6 +1,6 @@
 <?php
 
-use App\Broadcasting\GameLoungeChannel;
+use App\Broadcasting\ChatChannel;
 use Illuminate\Support\Facades\Broadcast;
 
 /*
@@ -17,5 +17,4 @@ use Illuminate\Support\Facades\Broadcast;
 Broadcast::channel('user.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
-
-Broadcast::channel('game-lounge.{gameLounge}', GameLoungeChannel::class);
+Broadcast::channel('chat.{chatRoom}', ChatChannel::class);

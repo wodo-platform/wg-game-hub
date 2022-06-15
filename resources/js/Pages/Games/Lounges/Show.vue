@@ -17,7 +17,7 @@ let players = reactive([]);
 onMounted(() => {
     if (props.user) {
         window.echo
-            .join(`game-lounge.${props.lounge.id}`)
+            .join(`chat.${props.lounge.chat_room.id}`)
             .here(channelConnectedUsers)
             .joining(channelUserJoined)
             .leaving(channelUserLeaving)
@@ -50,7 +50,7 @@ function channelError(error) {
 
 function sendChatMessage() {
     Inertia.post(
-        `/game-lounges/${props.lounge.id}/message`,
+        `/chat/${props.lounge.id}/message`,
         {
             message: chatMessageInput.value,
         },

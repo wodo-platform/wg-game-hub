@@ -1,7 +1,8 @@
 <?php
 
 use App\Http\Controllers\{
-    Auth\LoginController,
+    GamesController,
+    ChatRoom\ChatRoomMessageController,
     DashboardController,
     GameLounges\GameLoungeJoinController,
     GameLounges\GameLoungeLeaveController,
@@ -9,7 +10,6 @@ use App\Http\Controllers\{
     GameLounges\GameLoungesController,
     ProfileController,
 };
-use App\Http\Controllers\GamesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -47,8 +47,9 @@ Route::middleware('auth')->group(function () {
         GameLoungeLeaveController::class,
     )->name('game-lounges.leave');
 
+    // Chat Rooms
     Route::post(
-        'game-lounges/{gameLounge}/message',
-        GameLoungeChatMessageController::class,
-    )->name('game-lounges.message');
+        'chat/{chatRoom}/message',
+        ChatRoomMessageController::class,
+    )->name('chat-room.message');
 });

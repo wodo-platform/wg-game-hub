@@ -15,7 +15,6 @@ class GameFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
-            'slug' => $this->faker->slug(),
             'description' => $this->faker->text(),
             'status' => $this->faker->randomElement(GameStatus::cases()),
             'image' => $this->faker->imageUrl(185, 100),
