@@ -153,7 +153,10 @@ function modalCancelGameButtonClicked() {
                         {{ option.name }}
                     </h2>
                     <div class="text-bold font-grota text-base text-wgh-gray-6">
-                        <span>{{ option.base_entrance_fee }}</span>
+                        <span
+                            >{{ option.base_entrance_fee }}
+                            {{ option.asset.symbol }}</span
+                        >
                     </div>
                 </div>
                 <button
