@@ -17,7 +17,7 @@ let players = reactive([]);
 onMounted(() => {
     if (props.user) {
         window.echo
-            .join(`chat.${props.lounge.chat_room.id}`)
+            .join(`chat.${props.lounge.id}`)
             .here(channelConnectedUsers)
             .joining(channelUserJoined)
             .leaving(channelUserLeaving)
@@ -28,7 +28,7 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
     if (props.user) {
-        window.echo.leave(`game-lounge.${props.lounge.id}`);
+        window.echo.leave(`chat.${props.lounge.id}`);
     }
 });
 
@@ -171,7 +171,8 @@ export default {
             <p
                 class="mb-2 font-grota text-lg font-extrabold uppercase text-white"
             >
-                Players ({{ players.length }}/50)
+                Players ({{ lounge.players_in_lounge_count }} /
+                {{ lounge.max_players }})
             </p>
             <div class="relative h-full w-full w-full">
                 <BorderedContainer

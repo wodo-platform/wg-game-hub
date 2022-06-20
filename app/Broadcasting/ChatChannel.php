@@ -4,6 +4,7 @@ namespace App\Broadcasting;
 
 use App\Models\ChatRoom;
 use App\Models\User;
+use Illuminate\Support\Facades\Log;
 
 class ChatChannel
 {
@@ -18,6 +19,8 @@ class ChatChannel
             ->users()
             ->where('user_id', $user->id)
             ->exists();
+
+        Log::info($userJoinedTheRoom);
 
         if ($userJoinedTheRoom) {
             return [

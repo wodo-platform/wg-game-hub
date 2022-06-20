@@ -17,15 +17,19 @@ class GameLoungeFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
+            'description' => $this->faker->text(),
             'image' => $this->faker->imageUrl(337, 110),
             'theme_color' => $this->faker->safeHexColor(),
             'type' => $this->faker->randomElement(GameLoungeType::cases()),
             'status' => $this->faker->randomElement(GameLoungeStatus::cases()),
             'rules' => $this->faker->paragraph(),
-            'base_entrance_fee' => $this->faker->randomNumber(),
+            'base_entrance_fee' => rand(5, 10),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
             'game_id' => Game::factory(),
+            'min_players' => rand(1, 2),
+            'max_players' => ($mp = rand(4, 5)),
+            'available_spots' => $mp,
         ];
     }
 }

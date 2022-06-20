@@ -56,6 +56,12 @@ class HandleInertiaRequests extends Middleware
                     'images/game-lounge-loading.gif',
                 ),
             ],
+            'flash' => function () use ($request) {
+                return [
+                    'error' => $request->session()->get('error'),
+                    'success' => $request->session()->get('success'),
+                ];
+            },
         ]);
     }
 }

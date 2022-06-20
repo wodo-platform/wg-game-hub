@@ -2,29 +2,30 @@
 
 namespace App\Models;
 
-use App\Enums\ChatRoomType;
 use App\Models\Concerns\HasUUID;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ChatRoom extends Model
+class Asset extends Model
 {
     use HasUUID;
+    use SoftDeletes;
     use HasFactory;
 
-    protected $casts = [
-        'type' => ChatRoomType::class,
-    ];
+    protected $guarded = [];
 
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class)->using(ChatRoomUser::class);
+        return $this->belongsToMany(User::class, 'user_asset_account')->using(
+            UserAssetAccount::class,
+        );
     }
 
-    public function messages(): HasMany
+    public function wodoAssetAccounts(): HasMany
     {
-        return $this->hasMany(ChatRoomMessage::class);
+        return $this->hasMany(WodoAssetAccount::class);
     }
 }
