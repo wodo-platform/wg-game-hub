@@ -13,7 +13,7 @@ class ChatRoomFactory extends Factory
     public function definition(): array
     {
         return [
-            'type' => ChatRoomType::GameLounge,
+            'type' => ChatRoomType::GameLobby,
         ];
     }
 }

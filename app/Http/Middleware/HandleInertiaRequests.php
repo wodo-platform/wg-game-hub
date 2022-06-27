@@ -49,11 +49,9 @@ class HandleInertiaRequests extends Middleware
                 : null,
             'config' => [
                 'main_pattern' => asset('images/main-pattern.png'),
-                'game_lounge_pattern' => asset(
-                    'images/game-lounge-pattern.png',
-                ),
-                'game_lounge_loading_gif' => asset(
-                    'images/game-lounge-loading.gif',
+                'game_lobby_pattern' => asset('images/game-lobby-pattern.png'),
+                'game_lobby_loading_gif' => asset(
+                    'images/game-lobby-loading.gif',
                 ),
             ],
             'flash' => function () use ($request) {

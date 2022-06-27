@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\GameResource;
 use App\Models\Game;
 use Inertia\Inertia;
 
@@ -11,7 +12,7 @@ class DashboardController extends Controller
     {
         $games = Game::online()
             ->forDashboard()
-            ->withCount('gameLounges')
+            ->withCount('gameLobbies')
             ->paginate();
         $balance = [
             [
@@ -39,7 +40,7 @@ class DashboardController extends Controller
 
         return Inertia::render('Dashboard', [
             'dashboard_art' => asset('images/dashboard-art.png'),
-            'games' => $games,
+            'games' => GameResource::collection($games),
             'balance' => $balance,
         ]);
     }

@@ -20,8 +20,6 @@ class ChatChannel
             ->where('user_id', $user->id)
             ->exists();
 
-        Log::info($userJoinedTheRoom);
-
         if ($userJoinedTheRoom) {
             return [
                 'id' => $user->id,

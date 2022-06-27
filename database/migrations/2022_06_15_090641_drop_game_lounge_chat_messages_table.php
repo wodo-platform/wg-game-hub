@@ -7,6 +7,6 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up()
     {
-        Schema::dropIfExists('game_lounge_chat_messages');
+        Schema::dropIfExists('game_lobby_chat_messages');
     }
 };

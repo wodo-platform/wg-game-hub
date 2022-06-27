@@ -7,7 +7,7 @@ use App\Models\Asset;
 use App\Models\UserAssetAccount;
 use App\Models\ChatRoom;
 use App\Models\Game;
-use App\Models\GameLounge;
+use App\Models\GameLobby;
 use App\Models\User;
 use App\Models\WodoAssetAccount;
 use Database\Factories\UserFactory;
@@ -37,11 +37,11 @@ class WodoGamehubDemoSeedCommand extends Command
         $this->createAssets();
         $this->createWodoAssetAccounts();
 
-        $this->info('Creating Games and Game lounges');
+        $this->info('Creating Games and Game lobbyes');
         Game::factory()
             ->count(20)
             ->has(
-                GameLounge::factory()
+                GameLobby::factory()
                     ->count(10)
                     ->state(new Sequence(...$assetIds))
                     ->has(
@@ -49,9 +49,9 @@ class WodoGamehubDemoSeedCommand extends Command
                             ->count(1)
                             ->state(function (
                                 array $attributes,
-                                GameLounge $gameLounge,
+                                GameLobby $gameLobby,
                             ) {
-                                return ['id' => $gameLounge->id];
+                                return ['id' => $gameLobby->id];
                             }),
                     ),
             )

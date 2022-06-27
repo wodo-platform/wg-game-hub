@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\GameLounge;
+use App\Models\GameLobby;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class GameLoungePolicy
+class GameLobbyPolicy
 {
     use HandlesAuthorization;
 
@@ -20,7 +20,7 @@ class GameLoungePolicy
         //
     }
 
-    public function view(User $user, GameLounge $gameLounge): bool
+    public function view(User $user, GameLobby $gameLobby): bool
     {
         //
     }
@@ -30,22 +30,22 @@ class GameLoungePolicy
         //
     }
 
-    public function update(User $user, GameLounge $gameLounge): bool
+    public function update(User $user, GameLobby $gameLobby): bool
     {
         //
     }
 
-    public function delete(User $user, GameLounge $gameLounge): bool
+    public function delete(User $user, GameLobby $gameLobby): bool
     {
         //
     }
 
-    public function restore(User $user, GameLounge $gameLounge): bool
+    public function restore(User $user, GameLobby $gameLobby): bool
     {
         //
     }
 
-    public function forceDelete(User $user, GameLounge $gameLounge): bool
+    public function forceDelete(User $user, GameLobby $gameLobby): bool
     {
         //
     }

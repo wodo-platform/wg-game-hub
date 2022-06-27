@@ -13,7 +13,7 @@ import TentModal from '@/Shared/Modals/TentModal';
 
 let props = defineProps({
     game: Object,
-    gameOptions: Object,
+    game_options: Object,
 });
 
 let startGameConfirmationModalIsOpen = ref(false);
@@ -30,9 +30,9 @@ function modalStartGameButtonClicked() {
         return;
     }
 
-    Inertia.post(`/game-lounges/${selectedGameOption.id}/join`);
+    Inertia.post(`/game-lobbies/${selectedGameOption.id}/join`);
     // Participate in session
-    // and redirect to lounge
+    // and redirect to Lobby
 
     startGameConfirmationModalIsOpen.value = false;
     // initialize the game
@@ -106,7 +106,7 @@ function modalCancelGameButtonClicked() {
                         <span
                             class="font-grota text-sm font-normal uppercase text-white"
                             >{{
-                                gameOptions.total.toLocaleString('en')
+                                game_options.total.toLocaleString('en')
                             }}
                             Options</span
                         >
@@ -135,7 +135,7 @@ function modalCancelGameButtonClicked() {
             class="flex grid grid-cols-1 flex-row flex-wrap gap-6 md:grid-cols-2 lg:grid-cols-3 lg:px-12"
         >
             <borderedContainer
-                v-for="option in gameOptions.data"
+                v-for="option in game_options.data"
                 :key="option.id"
                 class="max-w-3xl bg-white p-6"
                 :style="{ 'border-color': `${option.theme_color}` }"
