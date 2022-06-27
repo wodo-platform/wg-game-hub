@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum GameLoungeStatus: int
+enum GameLobbyStatus: int
 {
     case StateOne = 1;
     case StateTwo = 2;

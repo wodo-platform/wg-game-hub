@@ -4,6 +4,6 @@ namespace App\Builders;
 
 use Illuminate\Database\Eloquent\Builder;
 
-class GameLoungeBuilder extends Builder
+class GameLobbyBuilder extends Builder
 {
 }

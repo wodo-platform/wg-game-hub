@@ -1,16 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\ChatRoom;
+namespace App\Actions\Chat;
 
 use App\Events\ChatRoom\ChatRoomMessageEvent;
 use App\Models\ChatRoom;
 use App\Models\ChatRoomMessage;
 use Illuminate\Http\Request;
-use Redirect;
 
-class ChatRoomMessageController
+class SendChatMessageToRoomAction
 {
-    public function __invoke(Request $request, ChatRoom $chatRoom)
+    public function execute(Request $request, ChatRoom $chatRoom): void
     {
         $user = $request->user();
         $chatRoom->messages()->save(
@@ -28,6 +27,5 @@ class ChatRoomMessageController
                 chatRoomMessage: $message,
             ),
         );
-        return Redirect::back();
     }
 }

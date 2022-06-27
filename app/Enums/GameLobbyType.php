@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum GameLoungeType: int
+enum GameLobbyType: int
 {
     case TypeOne = 1;
     case TypeTwo = 2;

@@ -35,9 +35,9 @@ class User extends Authenticatable
 
     protected $appends = ['full_name'];
 
-    public function gameLounges(): BelongsToMany
+    public function gameLobbies(): BelongsToMany
     {
-        return $this->belongsToMany(GameLounge::class);
+        return $this->belongsToMany(GameLobby::class);
     }
 
     public function fullName(): Attribute

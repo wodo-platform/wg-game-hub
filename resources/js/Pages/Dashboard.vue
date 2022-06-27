@@ -7,6 +7,8 @@ import TentModal from '@/Shared/Modals/TentModal';
 
 import BorderedContainer from '@/Shared/BorderedContainer';
 import { ref, reactive } from 'vue';
+import { isEmpty } from 'lodash';
+import { Inertia } from '@inertiajs/inertia';
 
 let props = defineProps({
     dashboard_art: String,
@@ -88,8 +90,8 @@ function gameActionButtonClicked(game) {
             <div>
                 <GameCard
                     @actionButtonClicked="gameActionButtonClicked(game)"
-                    :key="game.id"
                     v-for="game in props.games.data"
+                    :key="game.id"
                     :game="game"
                 />
             </div>

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class GameLoungeChatMessageRequest extends FormRequest
+class GameLobbyChatMessageRequest extends FormRequest
 {
     public function rules(): array
     {
@@ -15,7 +15,7 @@ class GameLoungeChatMessageRequest extends FormRequest
 
     public function authorize(): bool
     {
-        //TODO: Authorize if the user already joined the lounge
+        //TODO: Authorize if the user already joined the lobby
         return true;
     }
 }

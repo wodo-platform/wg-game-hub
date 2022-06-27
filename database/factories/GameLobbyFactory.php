@@ -2,16 +2,16 @@
 
 namespace Database\Factories;
 
-use App\Enums\GameLoungeStatus;
-use App\Enums\GameLoungeType;
+use App\Enums\GameLobbyStatus;
+use App\Enums\GameLobbyType;
 use App\Models\Game;
-use App\Models\GameLounge;
+use App\Models\GameLobby;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
 
-class GameLoungeFactory extends Factory
+class GameLobbyFactory extends Factory
 {
-    protected $model = GameLounge::class;
+    protected $model = GameLobby::class;
 
     public function definition(): array
     {
@@ -20,8 +20,8 @@ class GameLoungeFactory extends Factory
             'description' => $this->faker->text(),
             'image' => $this->faker->imageUrl(337, 110),
             'theme_color' => $this->faker->safeHexColor(),
-            'type' => $this->faker->randomElement(GameLoungeType::cases()),
-            'status' => $this->faker->randomElement(GameLoungeStatus::cases()),
+            'type' => $this->faker->randomElement(GameLobbyType::cases()),
+            'status' => $this->faker->randomElement(GameLobbyStatus::cases()),
             'rules' => $this->faker->paragraph(),
             'base_entrance_fee' => rand(5, 10),
             'created_at' => Carbon::now(),

@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use App\Builders\GameLoungeBuilder;
-use App\Enums\GameLoungeStatus;
-use App\Enums\GameLoungeType;
+use App\Builders\GameLobbyBuilder;
+use App\Enums\GameLobbyStatus;
+use App\Enums\GameLobbyType;
 use App\Models\Concerns\HasUUID;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,21 +15,21 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class GameLounge extends Model
+class GameLobby extends Model
 {
     use SoftDeletes;
     use HasFactory;
     use HasUUID;
 
     protected $casts = [
-        'type' => GameLoungeType::class,
-        'state' => GameLoungeStatus::class,
+        'type' => GameLobbyType::class,
+        'state' => GameLobbyStatus::class,
     ];
 
-    protected $appends = ['has_available_spots', 'players_in_lounge_count'];
-    public function newEloquentBuilder($query): GameLoungeBuilder
+    protected $appends = ['has_available_spots', 'players_in_lobby_count'];
+    public function newEloquentBuilder($query): GameLobbyBuilder
     {
-        return new GameLoungeBuilder(query: $query);
+        return new GameLobbyBuilder(query: $query);
     }
 
     public function hasAvailableSpots(): Attribute
@@ -42,7 +42,7 @@ class GameLounge extends Model
         );
     }
 
-    public function playersInLoungeCount(): Attribute
+    public function playersInLobbyCount(): Attribute
     {
         return new Attribute(
             get: function () {
@@ -58,11 +58,6 @@ class GameLounge extends Model
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class);
-    }
-
-    public function chatMessages(): HasMany
-    {
-        return $this->hasMany(GameLoungeChatMessage::class);
     }
 
     public function chatRoom(): HasOne

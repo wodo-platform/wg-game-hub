@@ -8,7 +8,7 @@ import LogoRed from '@/Shared/SVG/LogoRed';
 
 let props = defineProps({
     user: Object,
-    lounge: Object,
+    lobby: Object,
     config: Object,
 });
 let chatMessages = reactive([]);
@@ -17,7 +17,7 @@ let players = reactive([]);
 onMounted(() => {
     if (props.user) {
         window.echo
-            .join(`chat.${props.lounge.id}`)
+            .join(`chat-rooms.${props.lobby.id}`)
             .here(channelConnectedUsers)
             .joining(channelUserJoined)
             .leaving(channelUserLeaving)
@@ -28,7 +28,7 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
     if (props.user) {
-        window.echo.leave(`chat.${props.lounge.id}`);
+        window.echo.leave(`chat-rooms.${props.lobby.id}`);
     }
 });
 
@@ -50,7 +50,7 @@ function channelError(error) {
 
 function sendChatMessage() {
     Inertia.post(
-        `/chat/${props.lounge.id}/message`,
+        `/chat/${props.lobby.id}/message`,
         {
             message: chatMessageInput.value,
         },
@@ -67,10 +67,10 @@ function channelNewChatMessage(message) {
 </script>
 <script>
 import BaseLayout from '@/Layouts/_BaseLayout';
-import GameLoungeLayout from '@/Layouts/GameLoungeLayout';
+import GameLobbyLayout from '@/Layouts/GameLobbyLayout';
 
 export default {
-    layout: [BaseLayout, GameLoungeLayout],
+    layout: [BaseLayout, GameLobbyLayout],
 };
 </script>
 <template>
@@ -104,7 +104,7 @@ export default {
                 <div class="w-full py-16">
                     <img
                         class="mx-auto w-40"
-                        :src="config.game_lounge_loading_gif"
+                        :src="config.game_lobby_loading_gif"
                         alt="Loading.."
                     />
                     <p
@@ -171,8 +171,8 @@ export default {
             <p
                 class="mb-2 font-grota text-lg font-extrabold uppercase text-white"
             >
-                Players ({{ lounge.players_in_lounge_count }} /
-                {{ lounge.max_players }})
+                Players ({{ lobby.players_in_lobby_count }} /
+                {{ lobby.max_players }})
             </p>
             <div class="relative h-full w-full w-full">
                 <BorderedContainer

@@ -18,4 +18,9 @@ class UserAssetAccount extends Pivot
     protected $casts = [
         'status' => UserAssetAccountStatus::class,
     ];
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 }

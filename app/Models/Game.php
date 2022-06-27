@@ -25,8 +25,8 @@ class Game extends Model
         return new GameBuilder(query: $query);
     }
 
-    public function gameLounges(): HasMany
+    public function gameLobbies(): HasMany
     {
-        return $this->hasMany(GameLounge::class);
+        return $this->hasMany(GameLobby::class);
     }
 }

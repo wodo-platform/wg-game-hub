@@ -11,8 +11,8 @@ class GamesController extends Controller
     {
         return Inertia::render('Games/Show', [
             'game' => $game->only(['name', 'description', 'image']),
-            'gameOptions' => $game
-                ->gameLounges()
+            'game_options' => $game
+                ->gameLobbies()
                 ->with('asset:id,name,symbol')
                 ->paginate(),
         ]);

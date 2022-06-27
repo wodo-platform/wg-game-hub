@@ -50,7 +50,9 @@ defineEmits(['actionButtonClicked']);
                             <span
                                 class="font-grota text-sm font-normal uppercase text-wgh-gray-6"
                                 >{{
-                                    game.game_lounges_count.toLocaleString('en')
+                                    game.game_lobbies_count?.toLocaleString(
+                                        'en'
+                                    )
                                 }}
                                 Options</span
                             >
