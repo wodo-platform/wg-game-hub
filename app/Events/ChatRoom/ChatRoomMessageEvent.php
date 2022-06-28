@@ -25,7 +25,7 @@ class ChatRoomMessageEvent implements ShouldBroadcast
 
     public function broadcastOn(): Channel
     {
-        return new PresenceChannel('chat.' . $this->chatRoom->id);
+        return new PresenceChannel('chat-rooms.' . $this->chatRoom->id);
     }
 
     public function broadcastAs(): string
