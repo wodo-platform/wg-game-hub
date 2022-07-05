@@ -17,3 +17,5 @@ public/js/*
 public/fonts/*
 /public/build
 /public/mix-manifest.json
+mysqldata/*
+redisdata/*
