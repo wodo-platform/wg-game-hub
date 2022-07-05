@@ -13,12 +13,15 @@ class AddUserToGameLobbyAction
     public function execute(Request $request, string $gameLobbyID): GameLobby
     {
         $user = $request->user();
-        //TODO: Redirect if user already joined
 
-        DB::transaction(function () use ($user, $gameLobbyID) {
+        return DB::transaction(function () use ($user, $gameLobbyID) {
             // sharedLock: prevents the selected rows from being modified until your transaction is committed (read)
             // lockForUpdate: prevents the selected records from being modified or from being selected with another shared lock (read or update)
-
+            /**
+             * 1- Check if the user is already in ongoing session before charging him - maybe in the authorization
+             * 2- Check if the user is already in session
+             * 3- prevent double spending (double fee)
+             */
             $gameLobby = GameLobby::query()
                 ->lockForUpdate()
                 ->findOrFail($gameLobbyID);
@@ -28,7 +31,7 @@ class AddUserToGameLobbyAction
                     'error',
                     'Sorry, there is no available spot, please try again later.',
                 );
-                return;
+                return $gameLobby;
             }
 
             /** @var \App\Models\UserAssetAccount $assetAccount */
@@ -54,6 +57,7 @@ class AddUserToGameLobbyAction
             $wodoAccount = WodoAssetAccount::sharedLock()
                 ->where('asset_id', $gameLobby->asset_id)
                 ->first();
+
             $wodoAccount->update([
                 'balance' => $wodoAccount->balance + $fee,
             ]);

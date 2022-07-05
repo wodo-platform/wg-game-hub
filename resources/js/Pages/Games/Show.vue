@@ -14,46 +14,60 @@ import TentModal from '@/Shared/Modals/TentModal';
 let props = defineProps({
     game: Object,
     game_options: Object,
+    user: Object,
 });
 
-let startGameConfirmationModalIsOpen = ref(false);
-let selectedGameOption = reactive({});
+let settings = reactive({
+    startGameConfirmationModalIsOpen: false,
+    selectedGameOption: {},
+});
+// let startGameConfirmationModalIsOpen = ref(false);
+// let selectedGameOption = reactive({});
 
 // Open Modal and set the selected game option
 function startGameButtonClicked(gameOption) {
-    selectedGameOption = gameOption;
-    startGameConfirmationModalIsOpen.value = true;
+    if (!props.user) {
+        Inertia.visit('/login');
+        return;
+    }
+    settings.selectedGameOption = gameOption;
+
+    settings.startGameConfirmationModalIsOpen = true;
 }
 
 function modalStartGameButtonClicked() {
-    if (isEmpty(selectedGameOption)) {
+    if (isEmpty(settings.selectedGameOption)) {
         return;
     }
 
-    Inertia.post(`/game-lobbies/${selectedGameOption.id}/join`);
+    Inertia.post(`/game-lobbies/${settings.selectedGameOption.id}/join`);
     // Participate in session
     // and redirect to Lobby
 
-    startGameConfirmationModalIsOpen.value = false;
+    settings.startGameConfirmationModalIsOpen = false;
     // initialize the game
 }
 
 function modalCancelGameButtonClicked() {
-    startGameConfirmationModalIsOpen.value = false;
-    selectedGameOption = {};
+    settings.startGameConfirmationModalIsOpen = false;
+    // settings.selectedGameOption = {};
 }
 </script>
 
 <template>
-    <TentModal :open="startGameConfirmationModalIsOpen">
-        <template v-slot:header><p>Hello!</p></template>
+    <TentModal :open="settings.startGameConfirmationModalIsOpen">
+        <template v-slot:header><p>Ready to Play!</p></template>
         <template v-slot:title>
-            <p>A small description about the first section.</p>
+            <p>
+                {{ props.game.name }} - {{ settings.selectedGameOption.name }}
+            </p>
         </template>
         <template v-slot:subtitle>
             <p class="wgh-gray-6 font-inter text-base font-normal">
-                A small description about the first section explaining about the
-                platform.
+                Entrance fee for this lobby is
+                {{ settings.selectedGameOption?.base_entrance_fee }}
+                {{ settings.selectedGameOption?.asset?.symbol }} <br />
+                are you sure you want continue ?
             </p>
         </template>
         <template v-slot:actions>

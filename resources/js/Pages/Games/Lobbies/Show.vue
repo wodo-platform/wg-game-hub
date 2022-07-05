@@ -50,7 +50,7 @@ function channelError(error) {
 
 function sendChatMessage() {
     Inertia.post(
-        `/chat/${props.lobby.id}/message`,
+        `/chat-rooms/${props.lobby.id}/message`,
         {
             message: chatMessageInput.value,
         },
@@ -171,8 +171,7 @@ export default {
             <p
                 class="mb-2 font-grota text-lg font-extrabold uppercase text-white"
             >
-                Players ({{ lobby.players_in_lobby_count }} /
-                {{ lobby.max_players }})
+                Players ({{ lobby.users.length }} / {{ lobby.max_players }})
             </p>
             <div class="relative h-full w-full w-full">
                 <BorderedContainer
@@ -184,18 +183,18 @@ export default {
                     >
                         <div
                             class="flex flex-row justify-between py-2"
-                            v-for="player in players"
+                            v-for="user in lobby.users"
                         >
                             <div class="flex flex-row items-center space-x-4">
                                 <img
                                     class="h-8 w-8 rounded-full"
-                                    :src="player.image"
-                                    :alt="`${player.name}avatar`"
+                                    :src="user.image"
+                                    :alt="`${user.full_name}avatar`"
                                 />
                                 <p
                                     class="font-grota text-sm font-bold uppercase text-wgh-gray-6"
                                 >
-                                    {{ player.name }}
+                                    {{ user.full_name }}
                                 </p>
                             </div>
                             <div class="flex flex-row items-center">
