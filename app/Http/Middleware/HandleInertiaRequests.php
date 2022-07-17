@@ -2,6 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use App\Enums\GameLobbyStatus;
+use App\Enums\UserAssetAccountStatus;
+use Cache;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -27,6 +30,46 @@ class HandleInertiaRequests extends Middleware
         return parent::version($request);
     }
 
+    protected function loadUserData(Request $request)
+    {
+        return [
+            'id' => $request->user()->id,
+            'name' => $request->user()->name,
+            'last_name' => $request->user()->last_name,
+            'full_name' => $request->user()->full_name,
+            'email' => $request->user()->email,
+            'image' => $request->user()->image,
+            'asset_accounts' => Cache::remember(
+                key: 'user.' . $request->user()->id . '.asset_accounts',
+                ttl: 300,
+                callback: function () use ($request) {
+                    return $request
+                        ->user()
+                        ->assets()
+                        ->select('assets.id', 'assets.name', 'assets.symbol')
+                        ->wherePivot('status', UserAssetAccountStatus::Active)
+                        ->withPivot('balance', 'status')
+                        ->get();
+                },
+            ),
+            'current_lobby_session' => Cache::remember(
+                key: 'user.' . $request->user()->id . '.current-lobby-session',
+                ttl: 60,
+                callback: function () use ($request) {
+                    $session = $request
+                        ->user()
+                        ->gameLobbies()
+                        ->whereNot('status', GameLobbyStatus::Ended)
+                        ->first();
+
+                    return $session
+                        ? $session->only('id', 'game_id', 'name')
+                        : null;
+                },
+            ),
+        ];
+    }
+
     /**
      * Defines the props that are shared by default.
      *
@@ -38,14 +81,7 @@ class HandleInertiaRequests extends Middleware
     {
         return array_merge(parent::share($request), [
             'user' => $request->user()
-                ? [
-                    'id' => $request->user()->id,
-                    'name' => $request->user()->name,
-                    'last_name' => $request->user()->last_name,
-                    'full_name' => $request->user()->full_name,
-                    'email' => $request->user()->email,
-                    'image' => $request->user()->image,
-                ]
+                ? $this->loadUserData(request: $request)
                 : null,
             'config' => [
                 'main_pattern' => asset('images/main-pattern.png'),

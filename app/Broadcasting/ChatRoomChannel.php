@@ -4,9 +4,8 @@ namespace App\Broadcasting;
 
 use App\Models\ChatRoom;
 use App\Models\User;
-use Illuminate\Support\Facades\Log;
 
-class ChatChannel
+class ChatRoomChannel
 {
     public function __construct()
     {

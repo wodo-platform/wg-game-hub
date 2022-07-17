@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\ChatRoom;
+use App\Models\GameLobby;
+use App\Policies\ChatRoomPolicy;
+use App\Policies\GameLobbyPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -12,7 +16,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        // 'App\Models\Model' => 'App\Policies\ModelPolicy',
+        GameLobby::class => GameLobbyPolicy::class,
+        ChatRoom::class => ChatRoomPolicy::class,
     ];
 
     /**

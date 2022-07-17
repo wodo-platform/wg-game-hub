@@ -30,6 +30,7 @@ class GameLobbyFactory extends Factory
             'min_players' => rand(1, 2),
             'max_players' => ($mp = rand(4, 5)),
             'available_spots' => $mp,
+            'scheduled_at' => now()->addHours(rand(5, 200)),
         ];
     }
 }

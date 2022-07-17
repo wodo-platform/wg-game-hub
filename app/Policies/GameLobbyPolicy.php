@@ -22,7 +22,10 @@ class GameLobbyPolicy
 
     public function view(User $user, GameLobby $gameLobby): bool
     {
-        //
+        return $gameLobby
+            ->users()
+            ->where('users.id', $user->id)
+            ->exists();
     }
 
     public function create(User $user): bool
@@ -48,5 +51,21 @@ class GameLobbyPolicy
     public function forceDelete(User $user, GameLobby $gameLobby): bool
     {
         //
+    }
+
+    public function join(User $user, GameLobby $gameLobby): bool
+    {
+        return $gameLobby
+            ->users()
+            ->where('users.id', $user->id)
+            ->doesntExist();
+    }
+
+    public function leave(User $user, GameLobby $gameLobby): bool
+    {
+        return $gameLobby
+            ->users()
+            ->where('users.id', $user->id)
+            ->exists();
     }
 }

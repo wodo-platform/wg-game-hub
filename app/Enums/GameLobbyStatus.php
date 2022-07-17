@@ -4,6 +4,9 @@ namespace App\Enums;
 
 enum GameLobbyStatus: int
 {
-    case StateOne = 1;
-    case StateTwo = 2;
+    case Scheduled = 1;
+    case Lobby = 2;
+    case InGame = 3;
+    case LeaderBoard = 4;
+    case Ended = 5;
 }

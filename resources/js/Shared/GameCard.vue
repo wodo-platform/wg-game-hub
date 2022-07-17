@@ -24,7 +24,7 @@ defineEmits(['actionButtonClicked']);
             <img
                 :src="game.image"
                 :alt="`${game.name} art`"
-                class="aspect-[16/9] md:mb-0 md:max-h-[6.25rem]"
+                class="aspect-[16/9] rounded-lg md:mb-0 md:max-h-[6.25rem]"
             />
             <div class="flex flex-col justify-center">
                 <h3

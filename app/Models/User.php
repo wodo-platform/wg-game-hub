@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Models\Concerns\HasUUID;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -66,5 +65,14 @@ class User extends Authenticatable
     public function assetAccounts(): HasMany
     {
         return $this->hasMany(UserAssetAccount::class);
+    }
+
+    public function image(): Attribute
+    {
+        return new Attribute(
+            get: function () {
+                return 'https://joeschmoe.io/api/v1/' . $this->username;
+            },
+        );
     }
 }

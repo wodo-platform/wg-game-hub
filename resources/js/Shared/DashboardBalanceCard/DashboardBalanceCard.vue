@@ -5,13 +5,14 @@ import BorderedContainer from '@/Shared/BorderedContainer';
 
 let props = defineProps({
     balance: Array,
+    asset_accounts: Object,
 });
 </script>
 <template>
     <BorderedContainer class="border-wgh-gray-1.5 bg-white p-6">
         <div class="mb-4 flex flex-col space-y-4">
             <DashboardBalanceCardCoin
-                v-for="account in props.balance"
+                v-for="account in props.asset_accounts"
                 :account="account"
             />
         </div>

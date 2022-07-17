@@ -10,6 +10,7 @@ import { Link } from '@inertiajs/inertia-vue3';
 import { reactive, ref } from 'vue';
 import { isEmpty } from 'lodash';
 import TentModal from '@/Shared/Modals/TentModal';
+import ActiveSessionBanner from '@/Shared/ActiveSessionBanner';
 
 let props = defineProps({
     game: Object,
@@ -83,7 +84,6 @@ function modalCancelGameButtonClicked() {
             </button>
         </template>
     </TentModal>
-
     <div>
         <BorderedContainer
             class="mb-10 flex flex-col justify-between border-wgh-purple-3 bg-wgh-purple-2 p-7 md:flex-row"
@@ -144,7 +144,7 @@ function modalCancelGameButtonClicked() {
                 </div>
             </div>
         </BorderedContainer>
-
+        <ActiveSessionBanner />
         <div
             class="flex grid grid-cols-1 flex-row flex-wrap gap-6 md:grid-cols-2 lg:grid-cols-3 lg:px-12"
         >

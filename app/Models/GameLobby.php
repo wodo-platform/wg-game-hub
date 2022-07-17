@@ -26,7 +26,14 @@ class GameLobby extends Model
         'state' => GameLobbyStatus::class,
     ];
 
-    protected $appends = ['has_available_spots', 'players_in_lobby_count'];
+    protected $dates = ['scheduled_at'];
+
+    protected $appends = [
+        'has_available_spots',
+        'players_in_lobby_count',
+        'scheduled_at_utc_string',
+    ];
+
     public function newEloquentBuilder($query): GameLobbyBuilder
     {
         return new GameLobbyBuilder(query: $query);
@@ -42,6 +49,15 @@ class GameLobby extends Model
         );
     }
 
+    public function scheduledAtUtcString(): Attribute
+    {
+        return new Attribute(
+            get: function () {
+                return $this->scheduled_at->toString();
+            },
+        );
+    }
+
     public function playersInLobbyCount(): Attribute
     {
         return new Attribute(
@@ -50,6 +66,7 @@ class GameLobby extends Model
             },
         );
     }
+
     public function game(): BelongsTo
     {
         return $this->belongsTo(Game::class);
@@ -57,7 +74,7 @@ class GameLobby extends Model
 
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class)->using(GameLobbyUser::class);
     }
 
     public function chatRoom(): HasOne
@@ -68,5 +85,12 @@ class GameLobby extends Model
     public function asset(): BelongsTo
     {
         return $this->belongsTo(Asset::class);
+    }
+
+    public function alreadyJoined(User $user): bool
+    {
+        return $this->users()
+            ->where('id', $user)
+            ->exists();
     }
 }
