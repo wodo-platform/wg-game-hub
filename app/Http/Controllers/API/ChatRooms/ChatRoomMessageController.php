@@ -14,6 +14,12 @@ class ChatRoomMessageController extends Controller
         ChatRoom $chatRoom,
         SendChatMessageToRoomAction $sendChatMessageToRoomAction,
     ) {
+        $this->authorize('message', $chatRoom);
+
+        $request->validate([
+            'message' => 'required',
+        ]);
+
         $sendChatMessageToRoomAction->execute(
             request: $request,
             chatRoom: $chatRoom,

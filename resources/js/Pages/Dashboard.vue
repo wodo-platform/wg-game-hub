@@ -4,6 +4,7 @@ import DashboardBalanceCard from '@/Shared/DashboardBalanceCard/DashboardBalance
 import DashboardBalanceCardCreateAccount from '@/Shared/DashboardBalanceCard/DashboardBalanceCardCreateAccount';
 import ButtonShape from '@/Shared/ButtonShape';
 import TentModal from '@/Shared/Modals/TentModal';
+import ActiveSessionBanner from '@/Shared/ActiveSessionBanner';
 
 import BorderedContainer from '@/Shared/BorderedContainer';
 import { ref, reactive } from 'vue';
@@ -43,6 +44,7 @@ function gameActionButtonClicked(game) {
 <template>
     <div class="flex h-full flex-col lg:flex-row lg:space-x-6">
         <div class="w-full lg:w-3/4">
+            <ActiveSessionBanner />
             <BorderedContainer
                 class="mb-8 flex flex-col space-y-6 border-wgh-red-3 bg-wgh-red-2 p-6 md:flex-row md:space-x-6 md:space-y-0"
             >
@@ -59,7 +61,6 @@ function gameActionButtonClicked(game) {
                     </p>
                 </div>
             </BorderedContainer>
-
             <h1 class="mb-6 font-grota text-2xl font-extrabold text-wgh-gray-6">
                 Games
             </h1>
@@ -97,7 +98,11 @@ function gameActionButtonClicked(game) {
             </div>
         </div>
         <div class="h-full w-full space-y-6 lg:w-1/4">
-            <DashboardBalanceCard v-if="user" :balance="balance" />
+            <DashboardBalanceCard
+                v-if="user"
+                :balance="balance"
+                :asset_accounts="user.asset_accounts"
+            />
             <DashboardBalanceCardCreateAccount v-if="!user" />
         </div>
     </div>

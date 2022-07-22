@@ -10,7 +10,6 @@ class GamesController extends Controller
 {
     public function index()
     {
-        // Build pipeline and according to media query build the database query
         $games = Game::online()
             ->withCount('gameLobbies')
             ->paginate();
@@ -20,7 +19,6 @@ class GamesController extends Controller
 
     public function show(Game $game)
     {
-        $game->load('gameLobbies');
         return new GameResource($game);
     }
 }

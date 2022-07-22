@@ -19,6 +19,7 @@
         "@tailwindcss/aspect-ratio": "^0.4.0",
         "autoprefixer": "^10.4.7",
         "axios": "^0.25",
+        "dayjs": "^1.11.3",
         "laravel-echo": "^1.11.7",
         "laravel-mix": "^6.0.6",
         "lodash": "^4.17.19",

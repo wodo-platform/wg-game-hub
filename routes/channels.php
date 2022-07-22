@@ -1,6 +1,6 @@
 <?php
 
-use App\Broadcasting\ChatChannel;
+use App\Broadcasting\ChatRoomChannel;
 use Illuminate\Support\Facades\Broadcast;
 
 /*
@@ -17,4 +17,4 @@ use Illuminate\Support\Facades\Broadcast;
 Broadcast::channel('user.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
-Broadcast::channel('chat-rooms.{chatRoom}', ChatChannel::class);
+Broadcast::channel('chat-rooms.{chatRoom}', ChatRoomChannel::class);

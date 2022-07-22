@@ -16,17 +16,17 @@ let props = defineProps({
             <BananoBalanceIcon class="h-14 w-14 shrink-0" />
             <div class="flex shrink grow-0 flex-col truncate">
                 <p class="font-grota text-lg font-extrabold text-wgh-gray-6">
-                    {{ account.balance.toLocaleString('US') }}
+                    {{ account.pivot.balance.toLocaleString('US') }}
                 </p>
-                <p
-                    class="overflow-hidden text-ellipsis font-inter text-xs font-normal text-wgh-gray-2"
-                >
-                    {{ account.address }}
-                </p>
+                <!--                <p-->
+                <!--                    class="overflow-hidden text-ellipsis font-inter text-xs font-normal text-wgh-gray-2"-->
+                <!--                >-->
+                <!--                    {{ account.address }}-->
+                <!--                </p>-->
             </div>
-            <button class="shrink-0 grow-0">
-                <CopyIcon />
-            </button>
+            <!--            <button class="shrink-0 grow-0">-->
+            <!--                <CopyIcon />-->
+            <!--            </button>-->
         </div>
     </div>
 </template>

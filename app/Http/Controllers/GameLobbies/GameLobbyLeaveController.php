@@ -4,20 +4,25 @@ namespace App\Http\Controllers\GameLobbies;
 
 use App\Actions\Games\GameLobbies\RemoveUserFromGameLobbyAction;
 use App\Http\Controllers\Controller;
+use App\Models\GameLobby;
 use Illuminate\Http\Request;
 
 class GameLobbyLeaveController extends Controller
 {
     public function __invoke(
         Request $request,
-        string $gameLobby,
+        GameLobby $gameLobby,
         RemoveUserFromGameLobbyAction $removeUserFromGameLobbyAction,
     ) {
+        $this->authorize('leave', $gameLobby);
+
         $gameLobby = $removeUserFromGameLobbyAction->execute(
             request: $request,
-            gameLobbyID: $gameLobby,
+            gameLobby: $gameLobby,
         );
 
-        return redirect()->route('games.show', ['id' => $gameLobby->id]);
+        return redirect()->route('games.show', [
+            'game' => $gameLobby->game_id,
+        ]);
     }
 }

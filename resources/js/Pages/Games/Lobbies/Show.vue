@@ -2,8 +2,17 @@
 import BorderedContainer from '@/Shared/BorderedContainer';
 import KiteArrow from '@/Shared/SVG/KiteArrow';
 import ChatMessage from '@/Shared/Chat/ChatMessage';
-import { onBeforeUnmount, onMounted, defineProps, reactive, ref } from 'vue';
+import {
+    onBeforeUnmount,
+    onMounted,
+    defineProps,
+    reactive,
+    ref,
+    computed,
+} from 'vue';
 import { Inertia } from '@inertiajs/inertia';
+import { Link } from '@inertiajs/inertia-vue3';
+import dayjs from 'dayjs';
 import LogoRed from '@/Shared/SVG/LogoRed';
 
 let props = defineProps({
@@ -11,18 +20,36 @@ let props = defineProps({
     lobby: Object,
     config: Object,
 });
+
+console.log(props.lobby);
+
+let data = reactive({
+    timeToStart: '',
+    users: props.lobby.users,
+});
+
+let usersInLobby = computed(() => {
+    return data.users.length;
+});
+
 let chatMessages = reactive([]);
 let chatMessageInput = ref('');
 let players = reactive([]);
+let relativeTime = require('dayjs/plugin/relativeTime');
+let duration = require('dayjs/plugin/duration');
+
 onMounted(() => {
+    dayjs.extend(relativeTime);
+    dayjs.extend(duration);
     if (props.user) {
         window.echo
             .join(`chat-rooms.${props.lobby.id}`)
-            .here(channelConnectedUsers)
-            .joining(channelUserJoined)
-            .leaving(channelUserLeaving)
             .error(channelError)
-            .listen('.chat.message', channelNewChatMessage);
+            .listen('.chat.message', channelNewChatMessage)
+            .listen('.user.joined', channelUserJoined)
+            .listen('.user.left', channelUserLeft);
+
+        countDownTimer();
     }
 });
 
@@ -32,23 +59,14 @@ onBeforeUnmount(() => {
     }
 });
 
-function channelConnectedUsers(users) {
-    players.push(...users);
-}
-
-function channelUserJoined(user) {
-    players.push(user);
-}
-
-function channelUserLeaving(user) {
-    _.remove(players, user);
-}
-
 function channelError(error) {
     console.error('channel error: ', error);
 }
 
 function sendChatMessage() {
+    if (chatMessageInput.value.length <= 0) {
+        return;
+    }
     Inertia.post(
         `/chat-rooms/${props.lobby.id}/message`,
         {
@@ -64,6 +82,34 @@ function sendChatMessage() {
 function channelNewChatMessage(message) {
     chatMessages.push(message);
 }
+
+function countDownTimer() {
+    if (props.lobby.sceduled_at_w3c_string === null) {
+        return;
+    }
+
+    setInterval(function () {
+        let now = dayjs();
+        let scheduledAt = dayjs(props.lobby.scheduled_at_utc_string);
+        let diff = dayjs.duration(scheduledAt.diff(now));
+        // let formatted = diff.format('HH:mm:ss');
+        let days = `${diff.get('days')}d`;
+        let hours = `${diff.get('hours')}h`;
+        let minutes = `${diff.get('minutes')}m`;
+        let seconds = `${diff.get('seconds')}s`;
+        data.timeToStart = `${days} ${hours} ${minutes} ${seconds}`;
+    }, 1000);
+}
+
+function channelUserJoined(payload) {
+    data.users.push(payload.user);
+}
+
+function channelUserLeft(payload) {
+    _.remove(data.users, function (user) {
+        return user.id === payload.user.id;
+    });
+}
 </script>
 <script>
 import BaseLayout from '@/Layouts/_BaseLayout';
@@ -74,8 +120,32 @@ export default {
 };
 </script>
 <template>
-    <div class="pt-12 pb-24">
-        <LogoRed class="mx-auto h-14" />
+    <div
+        class="mx-auto grid w-full max-w-7xl gap-y-6 p-2 pt-12 pb-24 lg:grid-cols-12 lg:gap-x-6"
+    >
+        <div class="col-span-12 flex inline-flex lg:col-span-5">
+            <Link
+                method="delete"
+                as="button"
+                type="button"
+                :href="`/game-lobbies/${lobby.id}/leave`"
+                replace
+            >
+                <div
+                    class="cursor-pointer rounded-lg border-b-6 border-wgh-red-3 bg-wgh-red-3 transition-all duration-100 active:mt-1.5 active:border-b-0"
+                >
+                    <div
+                        class="flex flex-row space-x-2.5 rounded-lg border-3 border-wgh-red-3 bg-wgh-red-2 px-4 py-2 text-center font-grota text-white text-white outline-none transition-all duration-100 hover:bg-wgh-red-1 active:border-wgh-red-4 active:bg-wgh-red-3"
+                    >
+                        Leave Lobby
+                    </div>
+                </div>
+            </Link>
+        </div>
+
+        <div class="col-span-12 lg:col-span-7">
+            <LogoRed class="h-14" />
+        </div>
     </div>
     <div
         class="mx-auto grid w-full max-w-7xl gap-y-6 p-2 lg:grid-cols-12 lg:gap-x-6"
@@ -84,7 +154,7 @@ export default {
             <p
                 class="invisible mb-2 font-grota text-lg font-extrabold uppercase text-white"
             >
-                Timer
+                Time remaining
             </p>
             <BorderedContainer class="border-wgh-purple-3 bg-white p-4">
                 <div
@@ -93,7 +163,7 @@ export default {
                     <p
                         class="font-grota text-sm font-normal uppercase text-wgh-gray-6"
                     >
-                        SNAKE IO
+                        {{ props.lobby.game.name }}
                     </p>
                     <p
                         class="font-grota text-sm font-semibold uppercase text-wgh-gray-6"
@@ -113,9 +183,16 @@ export default {
                         WAITING TIME
                     </p>
                     <p
+                        v-if="!data.timeToStart"
                         class="mt-2 text-center font-grota text-3xl font-extrabold text-wgh-red-2"
                     >
-                        3m 25s
+                        Loading...
+                    </p>
+                    <p
+                        v-if="data.timeToStart"
+                        class="mt-2 text-center font-grota text-3xl font-extrabold text-wgh-red-2"
+                    >
+                        {{ data.timeToStart }}
                     </p>
                 </div>
             </BorderedContainer>
@@ -156,8 +233,9 @@ export default {
                             @keyup.enter="sendChatMessage"
                         />
                         <button
+                            :disabled="chatMessageInput.length <= 0"
                             @click.prevent="sendChatMessage"
-                            class="rounded-md bg-wgh-purple-2 py-2 px-4"
+                            class="rounded-md bg-wgh-purple-2 py-2 px-4 disabled:cursor-no-drop"
                         >
                             <KiteArrow class="h-4 w-4" />
                         </button>
@@ -171,7 +249,7 @@ export default {
             <p
                 class="mb-2 font-grota text-lg font-extrabold uppercase text-white"
             >
-                Players ({{ lobby.users.length }} / {{ lobby.max_players }})
+                Players ({{ usersInLobby }} / {{ lobby.max_players }})
             </p>
             <div class="relative h-full w-full w-full">
                 <BorderedContainer
@@ -183,13 +261,12 @@ export default {
                     >
                         <div
                             class="flex flex-row justify-between py-2"
-                            v-for="user in lobby.users"
+                            v-for="user in data.users"
                         >
                             <div class="flex flex-row items-center space-x-4">
                                 <img
                                     class="h-8 w-8 rounded-full"
                                     :src="user.image"
-                                    :alt="`${user.full_name}avatar`"
                                 />
                                 <p
                                     class="font-grota text-sm font-bold uppercase text-wgh-gray-6"

@@ -2,83 +2,85 @@
 
 namespace App\Actions\Games\GameLobbies;
 
+use App\Enums\Reactions\AddUserToGameLobbyReaction;
+use App\Events\ChatRoom\UserJoinedGameLobbyEvent;
 use App\Models\ChatRoomUser;
 use App\Models\GameLobby;
+use App\Models\User;
 use App\Models\WodoAssetAccount;
 use DB;
-use Illuminate\Http\Request;
+use Event;
 
 class AddUserToGameLobbyAction
 {
-    public function execute(Request $request, string $gameLobbyID): GameLobby
-    {
-        $user = $request->user();
+    public function execute(
+        User $user,
+        GameLobby $gameLobby,
+    ): GameLobby|AddUserToGameLobbyReaction {
+        return DB::transaction(
+            callback: function () use ($user, $gameLobby) {
+                $gameLobby = GameLobby::query()
+                    ->lockForUpdate()
+                    ->findOrFail($gameLobby->id);
 
-        return DB::transaction(function () use ($user, $gameLobbyID) {
-            // sharedLock: prevents the selected rows from being modified until your transaction is committed (read)
-            // lockForUpdate: prevents the selected records from being modified or from being selected with another shared lock (read or update)
-            /**
-             * 1- Check if the user is already in ongoing session before charging him - maybe in the authorization
-             * 2- Check if the user is already in session
-             * 3- prevent double spending (double fee)
-             */
-            $gameLobby = GameLobby::query()
-                ->lockForUpdate()
-                ->findOrFail($gameLobbyID);
+                if (!$gameLobby->has_available_spots) {
+                    return AddUserToGameLobbyReaction::NoAvailableSpots;
+                }
 
-            if (!$gameLobby->has_available_spots) {
-                session()->flash(
-                    'error',
-                    'Sorry, there is no available spot, please try again later.',
+                if (
+                    $gameLobby
+                        ->users()
+                        ->where('users.id', $user->id)
+                        ->exists()
+                ) {
+                    return AddUserToGameLobbyReaction::UserAlreadyJoinedTheGameLobby;
+                }
+
+                $userAssetAccount = $user
+                    ->assetAccounts()
+                    ->lockForUpdate()
+                    ->where('asset_id', $gameLobby->asset_id)
+                    ->first();
+
+                if (
+                    $userAssetAccount->balance < $gameLobby->base_entrance_fee
+                ) {
+                    return AddUserToGameLobbyReaction::InsufficientFunds;
+                }
+                $userAssetAccount->decrement(
+                    'balance',
+                    $fee = $gameLobby->base_entrance_fee,
+                );
+
+                $gameLobby->users()->syncWithPivotValues(
+                    ids: $user->id,
+                    values: [
+                        'entrance_fee' => $fee,
+                        'joined_at' => now(),
+                    ],
+                    detaching: false,
+                );
+                ChatRoomUser::firstOrCreate([
+                    'chat_room_id' => $gameLobby->id,
+                    'user_id' => $user->id,
+                ]);
+
+                $wodoAssetAccount = WodoAssetAccount::query()
+                    ->where('asset_id', $gameLobby->asset_id)
+                    ->first();
+
+                $wodoAssetAccount->increment('balance', $fee);
+
+                $gameLobby->decrement('available_spots');
+
+                broadcast(
+                    new UserJoinedGameLobbyEvent(
+                        gameLobby: $gameLobby,
+                        user: $user,
+                    ),
                 );
                 return $gameLobby;
-            }
-
-            /** @var \App\Models\UserAssetAccount $assetAccount */
-            $assetAccount = $user
-                ->assetAccounts()
-                ->where('asset_id', $gameLobby->asset_id)
-                ->lockForUpdate()
-                ->first();
-
-            if ($assetAccount->balance < $gameLobby->base_entrance_fee) {
-                session()->flash(
-                    'error',
-                    'Insufficient amount to do the transaction.',
-                );
-                return;
-            }
-
-            $assetAccount->update([
-                'balance' =>
-                    $assetAccount->balance -
-                    ($fee = $gameLobby->base_entrance_fee),
-            ]);
-            $wodoAccount = WodoAssetAccount::sharedLock()
-                ->where('asset_id', $gameLobby->asset_id)
-                ->first();
-
-            $wodoAccount->update([
-                'balance' => $wodoAccount->balance + $fee,
-            ]);
-
-            $gameLobby->decrement('available_spots');
-
-            $gameLobby->users()->syncWithPivotValues(
-                ids: $user->id,
-                values: [
-                    'entrance_fee' => $fee,
-                    'joined_at' => now(),
-                ],
-                detaching: false,
-            );
-
-            ChatRoomUser::firstOrCreate([
-                'chat_room_id' => $gameLobby->id,
-                'user_id' => $user->id,
-            ]);
-
-            return $gameLobby;
-        });
+            },
+        );
     }
 }

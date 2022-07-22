@@ -2,54 +2,84 @@
 
 namespace App\Actions\Games\GameLobbies;
 
+use App\Enums\Reactions\RemoveUserFromGameLobbyReaction;
+use App\Events\ChatRoom\UserLeftGameLobbyEvent;
 use App\Models\ChatRoomUser;
 use App\Models\GameLobby;
 use App\Models\WodoAssetAccount;
+use Auth;
+use Cache;
 use DB;
+use Event;
 use Illuminate\Http\Request;
 
 class RemoveUserFromGameLobbyAction
 {
-    public function execute(Request $request, string $gameLobbyID): GameLobby
-    {
+    public function execute(
+        Request $request,
+        GameLobby $gameLobby,
+    ): GameLobby|RemoveUserFromGameLobbyReaction {
         $user = $request->user();
-        DB::transaction(function () use ($user, $gameLobbyID) {
-            // sharedLock: prevents the selected rows from being modified until your transaction is committed (read)
-            // lockForUpdate: prevents the selected records from being modified or from being selected with another shared lock (read or update)
+        return DB::transaction(
+            callback: function () use ($user, $gameLobby) {
+                $gameLobby = GameLobby::query()
+                    ->lockForUpdate()
+                    ->findOrFail($gameLobby->id);
 
-            $gameLobby = GameLobby::query()
-                ->lockForUpdate()
-                ->findOrFail($gameLobbyID);
+                if (
+                    $gameLobby
+                        ->users()
+                        ->where('users.id', $user->id)
+                        ->doesntExist()
+                ) {
+                    return RemoveUserFromGameLobbyReaction::UserNotInGameLobby;
+                }
 
-            /** @var \App\Models\UserAssetAccount $assetAccount */
-            $assetAccount = $user
-                ->assetAccounts()
-                ->where('asset_id', $gameLobby->asset_id)
-                ->lockForUpdate()
-                ->first();
+                $userAssetAccount = $user
+                    ->assetAccounts()
+                    ->lockForUpdate()
+                    ->where('asset_id', $gameLobby->asset_id)
+                    ->first();
 
-            $assetAccount->update([
-                'balance' =>
-                    $assetAccount->balance +
-                    ($fee = $gameLobby->base_entrance_fee),
-            ]);
-            $wodoAccount = WodoAssetAccount::sharedLock()
-                ->where('asset_id', $gameLobby->asset_id)
-                ->first();
-            $wodoAccount->update([
-                'balance' => $wodoAccount->balance - $fee,
-            ]);
+                $gameLobbyUser = $gameLobby
+                    ->users()
+                    ->withPivot('entrance_fee')
+                    ->where('user_id', $user->id)
+                    ->first();
 
-            $gameLobby->increment('available_spots');
+                $gameLobbyUserEntranceFee = $gameLobbyUser->pivot->entrance_fee;
 
-            $gameLobby->users()->detach([$user->id]);
+                // return the amount he paid
+                $userAssetAccount->increment(
+                    'balance',
+                    $gameLobbyUserEntranceFee,
+                );
 
-            ChatRoomUser::where([
-                ['chat_room_id', '=', $gameLobby->id],
-                ['user_id', '=', $user->id],
-            ])->delete();
+                $wodoAccount = WodoAssetAccount::sharedLock()
+                    ->where('asset_id', $gameLobby->asset_id)
+                    ->first();
 
-            return $gameLobby;
-        });
+                $wodoAccount->decrement('balance', $gameLobbyUserEntranceFee);
+
+                $gameLobby->increment('available_spots');
+
+                $gameLobby->users()->detach([$user->id]);
+
+                ChatRoomUser::where([
+                    ['chat_room_id', '=', $gameLobby->id],
+                    ['user_id', '=', $user->id],
+                ])->delete();
+
+                Cache::forget('user.' . Auth::id() . '.current-lobby-session');
+
+                Event::dispatch(
+                    new UserLeftGameLobbyEvent(
+                        gameLobby: $gameLobby,
+                        user: $user,
+                    ),
+                );
+                return $gameLobby;
+            },
+        );
     }
 }

@@ -19,6 +19,8 @@ class UserAssetAccount extends Pivot
         'status' => UserAssetAccountStatus::class,
     ];
 
+    protected $hidden = ['created_at', 'updated_at'];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
